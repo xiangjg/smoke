@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head xmlns="http://www.w3.org/1999/xhtml">
+    <meta charset="utf-8"/>
+    <meta content="" name="description"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap-responsive.min.css"/>
+    <link rel="stylesheet" href="/static/css/ace/font-awesome.css" />
+    <link rel="stylesheet" href="/static/bootstrap-table/bootstrap-table.min.css"/>
+    <link rel="stylesheet" href="/static/css/ace/ace.css" class="ace-main-stylesheet" id="main-ace-style" />
+    <link rel="stylesheet" href="/static/layer/skin/layer.css"/>
+    <link rel="stylesheet" href="/static/zTree/css/zTreeStyle/zTreeStyle.css"/>
+</head>
+<body>
+<div style="padding: 5px">
+    <table id="role_table" class="table table-striped table-bordered table-hover"></table>
+    <div class="page-header position-relative">
+        <table style="width:100%;">
+            <tr>
+                <td style="vertical-align:top;">
+                    <a class="btn btn-sm btn-success" onclick="addRole();">新增</a>
+                    <a class="btn btn-sm btn-danger" onclick="deleteSelectUser();" ><i class='ace-icon fa fa-trash-o'></i>批量删除</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<!-- 角色信息新增 -->
+<div id="role_add_view" style="display: none">
+    <table class="table table-striped table-bordered table-hover">
+        <tr>
+            <td style="width:70px;text-align: right;padding-top: 13px;">名称:</td>
+            <td><input type="text" name="roleName" placeholder="这里输入名称" maxlength="6"/></td>
+        </tr>
+        <tr>
+            <td style="text-align: center;" colspan="10">
+                <a class="btn btn-mini btn-primary" name="save">保存</a>
+                <a class="btn btn-mini btn-danger" name="cancel">取消</a>
+            </td>
+        </tr>
+    </table>
+</div>
+<!-- 角色信息新增 -->
+<!-- 角色信息修改 -->
+<div id="role_edit_view" style="display: none">
+    <table class="table table-striped table-bordered table-hover">
+        <tr>
+            <td style="width:70px;text-align: right;padding-top: 13px;">名称:</td>
+            <td><input type="text" name="roleName" placeholder="这里输入名称" maxlength="6"/></td>
+        </tr>
+        <tr>
+            <td style="text-align: center;" colspan="10">
+                <a class="btn btn-mini btn-primary" name="save">保存</a>
+                <a class="btn btn-mini btn-danger" name="cancel">取消</a>
+            </td>
+        </tr>
+    </table>
+</div>
+<!-- 角色信息修改 -->
+<!-- 菜单权限修改 -->
+<div class="edit_menu_right" style="display: none">
+    <!--<div style="text-align: center"><input type="text"/></div>-->
+    <div class="tree-content">
+        <div class="ztree" id="_ztree"></div>
+    </div>
+</div>
+<!-- 菜单权限修改 -->
+</body>
+<script type="text/javascript" src="/static/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/static/bootstrap/bootstrap.min.js"></script>
+<script type='text/javascript' src='/static/bootstrap-table/bootstrap-table.min.js'></script>
+<script type='text/javascript' src='/static/bootstrap-table/bootstrap-table-zh-CN.min.js'></script>
+<script type="text/javascript" src="/static/layer/layer.js"></script>
+<script type="text/javascript" src="/static/zTree/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="/static/zTree/js/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="/static/js/role.js"></script>
+</html>

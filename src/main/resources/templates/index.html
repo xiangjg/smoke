@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta charset="utf-8"/>
+    <title>${title}</title>
+
+    <meta name="description" content="overview &amp; stats"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+    <!-- bootstrap & fontawesome -->
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.css"/>
+    <link rel="stylesheet" href="/static/css/ace/font-awesome.css"/>
+    <!-- text fonts -->
+    <link rel="stylesheet" href="/static/css/ace/ace-fonts.css"/>
+    <!-- ace styles -->
+    <link rel="stylesheet" href="/static/css/ace/ace.css" class="ace-main-stylesheet" id="main-ace-style"/>
+    <!-- ace settings handler -->
+    <script src="/static/ace/ace-extra.js"></script>
+    <script src="/static/jquery/jquery-2.0.3.min.js"></script>
+    <script src="/static/bootstrap/bootstrap.js"></script>
+    <script src="/static/ace/src/ace.js"></script>
+    <script src="/static/ace/src/ace.basics.js"></script>
+    <script src="/static/ace/src/ace.scrolltop.js"></script>
+    <script src="/static/ace/src/ace.sidebar.js"></script>
+    <script src="/static/layer/layer.js"></script>
+    <script src="/static/echarts3/echarts.min.js"></script>
+    <!--myown-->
+    <script src="/static/js/index.js"></script>
+    <script src="/static/js/cookies.js"></script>
+
+</head>
+<body class="no-skin">
+<div id="navbar" class="navbar navbar-default  ace-save-state">
+    <div class="navbar-container ace-save-state" id="navbar-container">
+        <div class="navbar-header pull-left">
+            <a href="#" class="navbar-brand">
+                <small>
+                    <i class="fa fa-leaf"></i>
+                    <label>${title}</label>
+                </small>
+            </a><!-- /.brand -->
+        </div>
+        <!-- /.navbar-header -->
+
+        <div class="navbar-buttons navbar-header pull-right" role="navigation">
+            <ul class="nav ace-nav">
+                <!--信息开始-->
+                <!--
+                <li class="green dropdown-modal">
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                        <i class="ace-icon fa fa-envelope icon-animated-vertical"></i>
+                        <span class="badge badge-success" id="message_num">0</span>
+                    </a>
+
+                    <ul class="dropdown-menu-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close"  id="message_list" style="display: none">
+                        <li class="dropdown-header">
+                            <i class="ace-icon fa fa-envelope-o"></i>
+                            <a id="msg_fpnum" target="iframe-page-content" style="display: inline"></a>
+                        </li>
+                        <li class="dropdown-header">
+                            <i class="ace-icon fa fa-envelope-o"></i>
+                            <a id="msg_zjnum" target="iframe-page-content" style="display: inline"></a>
+                        </li>
+                    </ul>
+                </li>
+                -->
+                <!--/信息结束-->
+                <li class="light-blue dropdown-modal">
+                    <a data-toggle="dropdown" href="#" class="dropdown-toggle">
+								<span class="user-info">
+									<small>${role.roleName}</small>
+									<label style="margin-left: 5px">${user.userName}</label>
+								</span>
+
+                        <i class="ace-icon fa fa-caret-down"></i>
+                    </a>
+
+                    <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+                        <li>
+                            <a href="#" onclick="openChangePwd()">
+                                <i class="icon-cog"></i>
+                                密码修改
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#">
+                                <i class="icon-user"></i>
+                                个人信息
+                            </a>
+                        </li>
+
+                        <li class="divider"></li>
+
+                        <li>
+                            <a href="/login">
+                                <i class="icon-off"></i>
+                                安全退出
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <!-- /.ace-nav -->
+        </div><!-- /.navbar-header -->
+    </div><!-- /.container -->
+</div>
+
+<div class="main-container ace-save-state" id="main-container">
+    <!-- main-content -->
+    <div class="main-container-inner">
+        <a class="menu-toggler" id="menu-toggler" href="#">
+            <span class="menu-text"></span>
+        </a>
+
+        <div class="sidebar responsive ace-save-state" id="sidebar">
+            <ul class="nav nav-list" id="menuPage">
+                <li class="active">
+                    <a href="toHomePage">
+                        <i class="menu-icon fa fa-tachometer"></i>
+                        <span class="menu-text"> 首页 </span>
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+                <#if (menus?? && menus?size>0)>
+                    <#list menus as menu>
+                        <#if (menu??&&menu.have)>
+                            <#if (menu.child?size > 0)>
+                                <li>
+                                    <a data='${menu.menuUrl}' class="dropdown-toggle" style="cursor:pointer">
+                                        <i class='${menu.menuIcon}'></i><span>${menu.menuName}</span>
+                                        <b class="arrow fa fa-angle-down"></b>
+                                    </a>
+                                    <b class="arrow"></b>
+                                    <ul class="submenu">
+                                        <#list menu.child as menuc>
+                                            <#if (menuc??&&menuc.have)>
+                                            <li id="${menuc.menuId}" onclick="menuClick('${menuc.menuId}')">
+                                                <a data='${menuc.menuUrl}' onclick='checkSession()' style="cursor:pointer">
+                                                    <i class="icon-double-angle-right"></i> ${menuc.menuName}</a><b class="arrow"></b>
+                                            </li>
+                                            </#if>
+                                        </#list>
+                                    </ul>
+                                </li>
+                                <#else>
+                                    <li id="${menu.menuId}" onclick="menuClick('${menu.menuId}')">
+                                        <a onclick='checkSession()' data='${menu.menuUrl}' style="cursor:pointer">
+                                            <i class='${menu.menuIcon}'></i>
+                                            <span>${menu.menuName}</span>
+                                        </a>
+                                        <b class="arrow"></b>
+                                    </li>
+                            </#if>
+                        </#if>
+                    </#list>
+                </#if>
+            </ul>
+            <!-- /.nav-list -->
+
+            <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+                <i id="sidebar-toggle-icon" class="ace-icon fa fa-angle-double-left ace-save-state"
+                   data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
+            </div>
+
+        </div>
+        <!-- page-content -->
+        <div class="main-content">
+
+            <div class="breadcrumbs ace-save-state" id="breadcrumbs">
+                <ul class="breadcrumb">
+                    <li>
+                        <i class="ace-icon fa fa-home home-icon"></i>
+                        <a href="#">Home</a>
+                    </li>
+                    <li class="active" id="indexShow">首页</li>
+                </ul><!-- .breadcrumb -->
+            </div>
+            <!-- 主体内容开始 -->
+            <div>
+                <iframe name="iframe-page-content" src="" width="100%" frameborder="no" border="0" marginwidth="0"
+                        marginheight=" 0" scrolling="AUTO" allowtransparency="yes">
+                </iframe>
+                <div name="main-content" id="main-content" style="display: none">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <div id="investHistory" style="width: 600px; height: 330px; margin-left: 2px;margin-top: 30px; display: inline-block; float: left;"></div>
+                        </div>
+                        <div class="col-xs-5">
+                            <div id="projectChart" style="width: 600px; height: 330px; margin-left: 2px; margin-top: 30px;display: inline-block; float: left;"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <div id="reliefHistory" style="width: 600px; height: 330px; margin-left: 2px;margin-top: 30px; display: inline-block; float: left;"></div>
+                        </div>
+                        <div class="col-xs-5">
+                            <div id="reliefChart" style="width: 600px; height: 330px; margin-left: 2px; margin-top: 30px;display: inline-block; float: left;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /主题内容结束 -->
+        </div>
+        <!-- /.page-content -->
+    </div>
+    <!-- /.main-content -->
+
+    <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+        <i class="icon-double-angle-up icon-only bigger-110"></i>
+    </a>
+</div><!-- /.main-container -->
+
+<!--/修改密码-->
+<!--修改密码-->
+<div style="display: none" id="changePwd">
+    <div class="user-repasswrod">
+        <div class="re-password-div" style="overflow: hidden;margin: 1%">
+            <div>
+                <br/>
+                <br/>
+                <div class="password-input-left green">
+                    原密码:
+                </div>
+                <div class="user-repwd-input-right">
+                    <input type="password" id="user_old_password" class="form-control tooltip-show"
+                           data-toggle="tooltip"
+                           title="密码输入错误" placeholder="请输入原密码"/>
+                </div>
+                <div style="display: inline-block">*</div>
+            </div>
+            <div>
+                <div class="password-input-left green">
+                    新密码:
+                </div>
+                <div class="user-repwd-input-right">
+                    <input type="password" class="form-control" id="user_new_password"
+                           placeholder="请输入新密码"/>
+                </div>
+                <div style="display: inline-block">*</div>
+            </div>
+            <div>
+                <div class="password-input-left green">
+                    再次输入新密码:
+                </div>
+                <div class="user-repwd-input-right">
+                    <input type="password" id="user_new_repassword" class="form-control tooltip-show"
+                           data-toggle="tooltip"
+                           title="两次密码输入不一致" placeholder="请再次输入新密码"/>
+                </div>
+                <div style="display: inline-block">*</div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--修改密码-->
+</body>
+<script src="/static/js/indexData.js"></script>
+</html>
