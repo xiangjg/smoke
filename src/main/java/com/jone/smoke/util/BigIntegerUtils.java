@@ -22,9 +22,10 @@ public class BigIntegerUtils {
 
     public  static void main(String[] args){
         List<Integer> rights = new ArrayList<>();
-        for(int i=1;i<8;i++){
-            rights.add(i);
-        }
+//        for(int i=1;i<8;i++){
+//            rights.add(i);
+//        }
+        rights.add(1);
         System.out.println(sumRights(rights));
     }
 }
