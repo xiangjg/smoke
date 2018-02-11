@@ -27,43 +27,44 @@ public class AuthRealm extends AuthorizingRealm {
     //认证.登录
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
-        UsernamePasswordToken utoken=(UsernamePasswordToken) token;//获取用户输入的token
+        UsernamePasswordToken utoken = (UsernamePasswordToken) token;//获取用户输入的token
         String username = utoken.getUsername();
         User user = null;
         try {
             user = userService.queryUserByUserId(username);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        return new SimpleAuthenticationInfo(user, user.getPassword(),this.getClass().getName());//放入shiro.调用CredentialsMatcher检验密码
+        return new SimpleAuthenticationInfo(user, user.getPassword(), this.getClass().getName());//放入shiro.调用CredentialsMatcher检验密码
     }
+
     //授权
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principal) {
-        User  user =(User) principal.fromRealm(this.getClass().getName()).iterator().next();//获取session中的用户
-        List<String> permissions=new ArrayList<>();
+        User user = (User) principal.fromRealm(this.getClass().getName()).iterator().next();//获取session中的用户
+        List<String> permissions = new ArrayList<>();
         Role role = user.getRole();
         List<MenuInfo> list = null;
         try {
             list = menuService.queryMenuInfo();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         List<MenuInfo> noList = new ArrayList<>();
-        for (MenuInfo mi:list
+        for (MenuInfo mi : list
                 ) {
-            if(!role.getRights().testBit(mi.getMenuId()))
+            if (!role.getRights().testBit(mi.getMenuId()))
                 noList.add(mi);
         }
-        for (MenuInfo mi:noList
+        for (MenuInfo mi : noList
                 ) {
             list.remove(mi);
         }
-        for (MenuInfo mi:list
+        for (MenuInfo mi : list
                 ) {
             permissions.add(mi.getMenuName());
         }
-        SimpleAuthorizationInfo info=new SimpleAuthorizationInfo();
+        SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         info.addStringPermissions(permissions);//将权限放入shiro中.
         return info;
     }

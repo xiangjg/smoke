@@ -59,10 +59,10 @@ shiroFilter:
   filterChainDefinitionMap:
     /static/**: anon
     /login: anon
-    /**: authc
-    /*.*: authc
-    /*: authc
-    /: authc
+    /**: anon
+#    /*.*: authc
+#    /*: authc
+#    /: authc
 system:
   name: 信息系统
 server:
