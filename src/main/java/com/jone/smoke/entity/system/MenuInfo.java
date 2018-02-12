@@ -17,7 +17,7 @@ public class MenuInfo implements Serializable{
 	private String menuUrl;
 	@Column(name = "parentid", nullable = false)
 	private Integer parentId;
-	@Column(name = "menuicon",length = 20)
+	@Column(name = "menuicon",length = 50)
 	private String menuIcon;
 	@Column(name = "number")
 	private Integer number;
