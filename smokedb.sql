@@ -2,15 +2,15 @@
 Navicat MySQL Data Transfer
 
 Source Server         : localhost
-Source Server Version : 50719
+Source Server Version : 50546
 Source Host           : localhost:3306
 Source Database       : smokedb
 
 Target Server Type    : MYSQL
-Target Server Version : 50719
+Target Server Version : 50546
 File Encoding         : 65001
 
-Date: 2018-02-12 15:24:34
+Date: 2018-02-23 07:22:23
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -32,7 +32,7 @@ CREATE TABLE `sys_menu` (
 -- ----------------------------
 -- Records of sys_menu
 -- ----------------------------
-INSERT INTO `sys_menu` VALUES ('1', 'menu-icon fa fa-pencil-square-o', '专家统计表', '/expert/list', '1', '0');
+INSERT INTO `sys_menu` VALUES ('1', 'menu-icon fa fa-pencil-square-o', '项目评审统计表', '/expert/list', '1', '0');
 
 -- ----------------------------
 -- Table structure for sys_role
