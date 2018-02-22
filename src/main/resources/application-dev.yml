@@ -64,7 +64,7 @@ shiroFilter:
 #    /*: authc
 #    /: authc
 system:
-  name: 信息系统
+  name: 项目评审统计
 server:
   #context-path: /water-safe
   port: 8080

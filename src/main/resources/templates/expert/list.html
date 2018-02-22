@@ -3,15 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="/static/bootstrap-select/css/bootstrap-select.min.css"/>
-    <link rel="stylesheet" href="/static/css/ace/font-awesome.css" />
-    <link rel="stylesheet" href="/static/bootstrap-table/bootstrap-table.min.css"/>
-    <!--<link rel="stylesheet" href="/static/css/ace/ace.min.css"/>-->
-    <link rel="stylesheet" href="/static/layer/skin/layer.css"/>
-    <link rel="stylesheet" href="/static/zTree/css/zTreeStyle/zTreeStyle.css"/>
+    <link rel="stylesheet" href="/plugs/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/plugs/bootstrap-select/css/bootstrap-select.min.css"/>
+    <link rel="stylesheet" href="/plugs/css/ace/font-awesome.css" />
+    <link rel="stylesheet" href="/plugs/bootstrap-table/bootstrap-table.min.css"/>
+    <!--<link rel="stylesheet" href="/plugs/css/ace/ace.min.css"/>-->
+    <link rel="stylesheet" href="/plugs/layer/skin/layer.css"/>
+    <link rel="stylesheet" href="/plugs/zTree/css/zTreeStyle/zTreeStyle.css"/>
 </head>
 <body>
-
+<table style="padding: 5px">
+    <tr>
+        <td>
+            <input autocomplete="off" type="text" name="ENTRUST" value="${pd.ENTRUST}" placeholder="这里输入项目名称" />
+        </td>
+        <td>
+            评审类别:
+            <select class="selectpicker">
+                <option selected>立项评审</option>
+            </select>
+        </td>
+        <td>
+            <input autocomplete="off" type="text" name="ENTRUST" value="${pd.ENTRUST}" placeholder="这里输入单位名称" />
+        </td>
+        <td>
+            <input autocomplete="off" type="text" name="ENTRUST" value="${pd.ENTRUST}" placeholder="这里输入姓名" />
+        </td>
+        <td><button class="btn btn-mini btn-light" onclick="search();"  title="检索">查询</button></td>
+    </tr>
+</table>
+    <table id="expert_table" class="table table-striped table-bordered table-hover" style="padding: 5px"></table>
 </body>
+<script type="text/javascript" src="/plugs/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/plugs/bootstrap/bootstrap.min.js"></script>
+<script type="text/javascript" src="/plugs/bootstrap-select/js/bootstrap-select.min.js"></script>
+<script type='text/javascript' src='/plugs/bootstrap-table/bootstrap-table.min.js'></script>
+<script type='text/javascript' src='/plugs/bootstrap-table/bootstrap-table-zh-CN.min.js'></script>
+<script type="text/javascript" src="/js/expert.js"></script>
 </html>
