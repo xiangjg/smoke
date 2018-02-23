@@ -54,14 +54,10 @@
             <td style="width:70px;text-align: right;padding-top: 13px;">手机:</td>
             <td><input type="text" name="mobile" maxlength="11"/></td>
         </tr>
-        <tr>
-            <td style="width:70px;text-align: right;padding-top: 13px;">行政区:</td>
-            <td><input type="text" name="adcd" readonly="readonly"/></td>
-        </tr>
         <tr class="info">
             <td style="width:70px;text-align: right;padding-top: 13px;">角色:</td>
             <td>
-                <select name="role" class="selectpicker" data-live-search="true" title="请选择角色" disabled="disabled">
+                <select name="role" class="selectpicker" data-live-search="true" title="请选择角色">
                     <#list roleList as role >
                         <option value="${role.roleId}" >${role.roleName}</option>
                     </#list>
@@ -97,14 +93,10 @@
             <td style="width:70px;text-align: right;padding-top: 13px;">手机:</td>
             <td><input type="text" name="mobile"/></td>
         </tr>
-        <tr>
-            <td style="width:70px;text-align: right;padding-top: 13px;">行政区:</td>
-            <td><input type="text" name="adcd" readonly="readonly"/></td>
-        </tr>
         <tr class="info">
             <td style="width:70px;text-align: right;padding-top: 13px;">角色:</td>
             <td>
-                <select name="role" class="selectpicker" data-live-search="true" title="请选择角色" disabled="disabled">
+                <select name="role" class="selectpicker" data-live-search="true" title="请选择角色">
                 </select>
             </td>
         </tr>
@@ -126,6 +118,5 @@
 <script type="text/javascript" src="/plugs/layer/layer.js"></script>
 <script type="text/javascript" src="/plugs/zTree/js/jquery.ztree.core.js"></script>
 <script type="text/javascript" src="/plugs/zTree/js/jquery.ztree.excheck.js"></script>
-<script type="text/javascript" src="/plugs/js/area.js"></script>
-<script type="text/javascript" src="/plugs/js/user.js"></script>
+<script type="text/javascript" src="/js/user.js"></script>
 </html>

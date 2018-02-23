@@ -2,15 +2,15 @@
 Navicat MySQL Data Transfer
 
 Source Server         : localhost
-Source Server Version : 50546
+Source Server Version : 50719
 Source Host           : localhost:3306
 Source Database       : smokedb
 
 Target Server Type    : MYSQL
-Target Server Version : 50546
+Target Server Version : 50719
 File Encoding         : 65001
 
-Date: 2018-02-23 07:22:23
+Date: 2018-02-23 09:44:16
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -27,12 +27,15 @@ CREATE TABLE `sys_menu` (
   `number` int(11) DEFAULT NULL,
   `parentid` int(11) NOT NULL,
   PRIMARY KEY (`menuid`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sys_menu
 -- ----------------------------
 INSERT INTO `sys_menu` VALUES ('1', 'menu-icon fa fa-pencil-square-o', '项目评审统计表', '/expert/list', '1', '0');
+INSERT INTO `sys_menu` VALUES ('2', 'menu-icon fa fa-gavel', '系统设置', null, '2', '0');
+INSERT INTO `sys_menu` VALUES ('3', null, '角色管理', 'role/index', '3', '2');
+INSERT INTO `sys_menu` VALUES ('4', null, '用户管理', 'user/index', '4', '2');
 
 -- ----------------------------
 -- Table structure for sys_role
@@ -49,7 +52,7 @@ CREATE TABLE `sys_role` (
 -- ----------------------------
 -- Records of sys_role
 -- ----------------------------
-INSERT INTO `sys_role` VALUES ('1', '2.00', '超级管理员', '0');
+INSERT INTO `sys_role` VALUES ('1', '30.00', '超级管理员', '0');
 
 -- ----------------------------
 -- Table structure for sys_user
