@@ -1,5 +1,5 @@
 $(function () {
-    var height = document.documentElement.clientHeight - 45 - 46;
+    var height = document.body.clientHeight - 49 - 40;
     //document.getElementsByName('iframe-page-content').style.height = height + 'px';
     $("iframe[name='iframe-page-content']").height(height);
 })
