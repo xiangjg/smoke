@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="/plugs/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/plugs/bootstrap/css/bootstrap.css"/>
     <link rel="stylesheet" href="/plugs/bootstrap-select/css/bootstrap-select.min.css"/>
     <link rel="stylesheet" href="/plugs/css/ace/font-awesome.css"/>
     <link rel="stylesheet" href="/plugs/bootstrap-table/bootstrap-table.min.css"/>
@@ -12,43 +12,95 @@
     <link rel="stylesheet" href="/plugs/zTree/css/zTreeStyle/zTreeStyle.css"/>
 </head>
 <body>
-<div class="container-fluid" id="main-container">
+<div class="container-fluid">
+    <ul class="nav nav-tabs" id="myTab">
+        <li class="active"><a data-toggle="tab" href="#profile"> <i
+                class="green ace-icon fa fa-cloud-upload bigger-110"></i> 工程导入
+        </a></li>
+        <li class="">
+            <a data-toggle="tab" href="#check_list"> <i
+                    class="green fa fa-bar-chart-o bigger-110"></i> 统计报表
+            </a>
+        </li>
+    </ul>
+    <div id="profile" class="tab-pane">
+        <div class="page-content">
+            <br/>
+            <div class="row">
+                <label class="col-xs-1 control-label text-right" style="line-height: 40px;">
+                    上传类型
+                </label>
+                <select class="col-xs-2" id="dataType" style=" margin-top: 5px;" onchange="excelModeChange();">
+                    <option value="" style="display:none">--请选择--</option>
+                    <option value="1">项目建设资料</option>
+                    <option value="2">建档立卡资料</option>
+                </select>
+                <div class="col-xs-1 text-right" >
+                    <a class="btn btn-sm btn-white" style="margin-top: 6px;" id="mode">
+                        <i class="icon-cloud-download"></i>下载模板</a>
+                </div>
+                <!--
+                <label class="col-xs-1 control-label text-right"
+                       style="line-height: 40px;">选择文件</label>
+                       -->
+                <div class="col-xs-2" style="line-height: 40px;margin-top:5px;" id="chooseFile">
+                    <div>
+                        <input type="file" id="id-input-file-1" name="file"
+                               accept=".xls,.xlsx" />
+                    </div>
+                </div>
+                <div calss="col-xs-2">
+                    <button class="btn btn-sm" onclick="myupload();">上传</button>
+                    <button class="btn btn-sm" onclick="save();">
+                        <i class="ace-icon fa fa-floppy-o"></i>
+                        保存
+                    </button>
+                </div>
 
-
-    <div id="page-content" class="clearfix">
-
-        <div class="row-fluid">
-
-            <div class="row-fluid">
-                <table style="padding: 5px">
-                    <tr>
-                        <td>
-                            <input autocomplete="off" type="text" name="ENTRUST" value="${pd.ENTRUST}"
-                                   placeholder="这里输入项目名称"/>
-                        </td>
-                        <td>
-                            评审类别:
-                            <select class="selectpicker">
-                                <option selected>立项评审</option>
-                            </select>
-                        </td>
-                        <td>
-                            <input autocomplete="off" type="text" name="ENTRUST" value="${pd.ENTRUST}"
-                                   placeholder="这里输入单位名称"/>
-                        </td>
-                        <td>
-                            <input autocomplete="off" type="text" name="ENTRUST" value="${pd.ENTRUST}"
-                                   placeholder="这里输入姓名"/>
-                        </td>
-                        <td>
-                            <button class="btn btn-sm btn-info" onclick="search();" title="检索">查询</button>
-                        </td>
-                    </tr>
-                </table>
-                <table id="expert_table" class="table table-striped table-bordered table-hover"
-                       style="padding: 5px"></table>
             </div>
+            <!-- 表格 -->
+            <div>
+                <table id="dataTable" class="table table-striped table-bordered table-hover"></table>
+            </div>
+            <!-- /表格结束 -->
         </div>
+    </div>
+
+    <!--报表查询-->
+    <div id="check_list" class="tab-pane">
+        <div class="main-container ace-save-state">
+            <div class="row">
+                <form class="form-inline">
+                    <div class="form-group" style="margin-left: 13px">
+                        <input autocomplete="off" type="text" name="ENTRUST" value="${pd.ENTRUST}"
+                               placeholder="这里输入项目名称"/>
+                    </div>
+                    <div class="form-group">
+                        评审类别:
+                        <select class="selectpicker">
+                            <option selected>立项评审</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-sm btn-info" data-loading-text="Loading..."
+                                type="button" id="check">查询</button>
+                    </div>
+                    <!--
+                    <button class="btn btn-white btn-info btn-bold" onclick="excelBudget();">
+                        <i class="ace-icon fa fa-cloud-upload bigger-110"></i>
+                        excel导出
+                    </button>
+                    -->
+                </form>
+                <br />
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <table id="expert_table" class="table table-striped table-bordered table-hover"
+                           style="padding: 5px"></table>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.main-container -->
     </div>
 </div>
 </body>
@@ -57,5 +109,9 @@
 <script type="text/javascript" src="/plugs/bootstrap-select/js/bootstrap-select.min.js"></script>
 <script type='text/javascript' src='/plugs/bootstrap-table/bootstrap-table.min.js'></script>
 <script type='text/javascript' src='/plugs/bootstrap-table/bootstrap-table-zh-CN.min.js'></script>
+<script type='text/javascript' src='/plugs/jquery/ajaxfileupload.js'></script>
+<script type='text/javascript' src="/plugs/ace/src/ace.js"></script>
+<script type='text/javascript' src="/plugs/ace/ace-elements.min.js"></script>
+<script type='text/javascript' src="/plugs/ace/bootbox.min.js"></script>
 <script type="text/javascript" src="/js/expert.js"></script>
 </html>
