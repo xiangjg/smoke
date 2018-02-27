@@ -1,7 +1,13 @@
 $(function () {
-    var height = document.body.clientHeight - 49 - 40;
+    var height = window.screen.availHeight - 49 - 40;
     //document.getElementsByName('iframe-page-content').style.height = height + 'px';
     $("iframe[name='iframe-page-content']").height(height);
+
+    console.log(window.screen.availHeight);
+    console.log(document.body.clientHeight );
+    console.log(document.body.offsetHeight);
+    console.log(document.body.scrollHeight );
+    console.log(window.screen.height);
 })
 
 function checkSession() {
