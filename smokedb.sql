@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50719
 File Encoding         : 65001
 
-Date: 2018-02-28 16:25:15
+Date: 2018-02-28 17:15:13
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -36,7 +36,7 @@ INSERT INTO `sys_menu` VALUES ('1', 'menu-icon fa fa-pencil-square-o', '项目�
 INSERT INTO `sys_menu` VALUES ('2', 'menu-icon fa fa-cog', '系统设置', null, '5', '0');
 INSERT INTO `sys_menu` VALUES ('3', null, '角色管理', 'role/index', '3', '2');
 INSERT INTO `sys_menu` VALUES ('4', null, '用户管理', 'user/index', '4', '2');
-INSERT INTO `sys_menu` VALUES ('5', 'menu-icon fa fa-bar-chart-o', '统计查询', '/expert/count', '2', '0');
+INSERT INTO `sys_menu` VALUES ('5', 'menu-icon fa fa-bar-chart-o', '统计报表', '/expert/count', '2', '0');
 
 -- ----------------------------
 -- Table structure for sys_role

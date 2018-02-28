@@ -1,4 +1,10 @@
 $(function () {
+    $('#expert_table').bootstrapTable({
+        columns: columns,
+        pageSize: 20,
+        pageList: [10, 25, 50, 100],
+        pagination: true
+    });
     $("#check").click(function () {
         var index = layer.load(1);
         var param = {};
