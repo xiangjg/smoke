@@ -3,11 +3,11 @@ $(function () {
     //document.getElementsByName('iframe-page-content').style.height = height + 'px';
     $("iframe[name='iframe-page-content']").height(height);
 
-    console.log(window.screen.availHeight);
-    console.log(document.body.clientHeight );
-    console.log(document.body.offsetHeight);
-    console.log(document.body.scrollHeight );
-    console.log(window.screen.height);
+    // console.log(window.screen.availHeight);
+    // console.log(document.body.clientHeight );
+    // console.log(document.body.offsetHeight);
+    // console.log(document.body.scrollHeight );
+    // console.log(window.screen.height);
 })
 
 function checkSession() {
