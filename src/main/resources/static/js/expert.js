@@ -6,6 +6,12 @@ $(function () {
         var param = {};
         if($("#proName").val())
             param.proName = $("#proName").val();
+        if($("#unitName").val())
+            param.unitName = $("#unitName").val();
+        if($("#expName").val())
+            param.expName = $("#expName").val();
+        if($("#reviewType").val())
+            param.reviewType = $("#reviewType").val();
         $.ajax({
             url: '/expert/query',
             dataType: "json",
@@ -93,7 +99,7 @@ var myupload = function () {
 }
 
 function save() {
-    var data = 	$('#dataTable').bootstrapTable('getData');console.log(data)
+    var data = 	$('#dataTable').bootstrapTable('getData');
     if(!data||data.length==0){
         layer.msg('没有需要保存的数据');
         return;

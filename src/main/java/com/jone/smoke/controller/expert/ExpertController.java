@@ -5,6 +5,7 @@ import com.jone.smoke.dao.expert.SmokeExpertRepository;
 import com.jone.smoke.entity.common.ResultUtil;
 import com.jone.smoke.entity.expert.SmokeExpert;
 import com.jone.smoke.util.ExcelUtil;
+import org.apache.commons.lang.StringUtils;
 import org.apache.poi.ss.usermodel.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -113,7 +114,16 @@ public class ExpertController extends BaseController {
 
     @RequestMapping(value = "query", method = RequestMethod.POST)
     public void query(HttpServletRequest request,HttpServletResponse response){
-        List<SmokeExpert> list = smokeExpertRepository.findAll();
+        String proName = request.getParameter("proName");
+        if(StringUtils.isEmpty(proName))
+            proName = "";
+        String unitName = request.getParameter("proName");
+        if(StringUtils.isEmpty(unitName))
+            unitName = "";
+        String expName = request.getParameter("proName");
+        if(StringUtils.isEmpty(expName))
+            expName = "";
+        List<SmokeExpert> list = smokeExpertRepository.findByProNameLikeOrExpNameManageLikeOrExpNameSkillLikeOrExpUnitManageLikeOrExpUnitSkillLike(proName,expName,expName,unitName,unitName);
         printJson(ResultUtil.success(list),response);
     }
 
