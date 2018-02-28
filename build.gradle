@@ -40,8 +40,8 @@ dependencies {
 	compile "com.alibaba:fastjson:1.2.4"
 
 	//POI
-	compile group: 'org.apache.poi', name: 'poi', version: '3.9'
-	compile group: 'org.apache.poi', name: 'poi-ooxml', version: '3.9'
+	compile group: 'org.apache.poi', name: 'poi', version: '3.15'
+	compile group: 'org.apache.poi', name: 'poi-ooxml', version: '3.15'
 
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }

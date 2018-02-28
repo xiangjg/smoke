@@ -1,13 +1,14 @@
 package com.jone.smoke.controller.expert;
 
+import com.alibaba.fastjson.JSONArray;
 import com.jone.smoke.controller.BaseController;
 import com.jone.smoke.dao.IDao;
 import com.jone.smoke.dao.custom.Criteria;
 import com.jone.smoke.dao.custom.Restrictions;
-import com.jone.smoke.dao.custom.SimpleExpression;
 import com.jone.smoke.dao.expert.SmokeExpertRepository;
 import com.jone.smoke.entity.common.ResultUtil;
 import com.jone.smoke.entity.expert.SmokeExpert;
+import com.jone.smoke.util.ExcelExportUtil;
 import com.jone.smoke.util.ExcelUtil;
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.ss.usermodel.*;
@@ -25,6 +26,7 @@ import java.io.FileInputStream;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -190,7 +192,53 @@ public class ExpertController extends BaseController {
             e.printStackTrace();
             printJson(ResultUtil.error(-1, e.getMessage()), response);
         }
+    }
 
+    @RequestMapping(value = "count/export", method = RequestMethod.GET)
+    public void countExport(HttpServletRequest request,HttpServletResponse response){
+        String unitName = request.getParameter("unitName");
+        String expName = request.getParameter("expName");
+        String reviewType = request.getParameter("reviewType");
+        String stTime = request.getParameter("stTime");
+        String eTime = request.getParameter("eTime");
+        StringBuffer sql = new StringBuffer("select expert_unit_skill as unit,expert_name_skill as name,count(1) as num,sum(review_cost) as cost from s_expert where 1=1 ");
+        try {
+            if(!StringUtils.isEmpty(unitName)){
+                sql.append(" and expert_unit_skill like '%"+unitName+"%' ");
+            }
+            if(!StringUtils.isEmpty(expName)){
+                sql.append(" and expert_name_skill like '%"+expName+"%' ");
+            }
+            if(!StringUtils.isEmpty(reviewType))
+                sql.append(" and review_type="+reviewType);
+            if(!StringUtils.isEmpty(stTime))
+                sql.append(" and review_time>=STR_TO_DATE("+stTime+",'%Y-%m-%d')");
+            if(!StringUtils.isEmpty(eTime))
+                sql.append(" and review_time<=STR_TO_DATE("+eTime+",'%Y-%m-%d')");
+            sql.append(" group by expert_unit_skill,expert_name_skill");
+            List<Map<String,Object>> list = dao.findBySqlToMap(sql.toString());
+            if(list!=null&&list.size()>0){
+                JSONArray ja = new JSONArray();
+                int i=1;
+                for (Map<String,Object> map:list
+                     ) {
+                    map.put("no",i);
+                    ja.add(map);
+                    i++;
+                }
+                Map<String,String> headMap = new LinkedHashMap<>();
+                headMap.put("no","序号");
+                headMap.put("unit","单位");
+                headMap.put("name","姓名");
+                headMap.put("num","评审次数");
+                headMap.put("cost","评审费用(元)");
+                ExcelExportUtil.downloadExcelFile("科技项目评审专家工作量及评审费用统计表",headMap,ja,response);
+            }else{
+                logger.error("可导出数据为空");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     private SmokeExpert checkSmokeExpert(SmokeExpert se) {

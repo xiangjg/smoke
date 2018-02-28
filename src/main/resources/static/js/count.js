@@ -34,6 +34,44 @@ $(function () {
             }
         });
     });
+    $("#export").click(function () {
+        var url = '/expert/count/export',first = false;
+        if($("#unitName").val()){
+            if(!first)
+                url+= '?unitName='+$("#unitName").val();
+            else
+                url+= '&unitName='+$("#unitName").val();
+            first = true;
+        }
+        if($("#expName").val()){
+            if(!first)
+                url+= '?expName='+$("#expName").val();
+            else
+                url+= '&expName='+$("#expName").val();
+            first = true;
+        }
+        if($("#reviewType").val()){
+            if(!first)
+                url+= '?reviewType='+$("#reviewType").val();
+            else
+                url+= '&reviewType='+$("#reviewType").val();
+            first = true;
+        }
+        if($("#start_time").val()){
+            if(!first)
+                url+= '?stTime='+$("#start_time").val();
+            else
+                url+= '&stTime='+$("#start_time").val();
+            first = true;
+        }
+        if($("#end_time").val()){
+            if(!first)
+                url+= '?eTime='+$("#end_time").val();
+            else
+                url+= '&eTime='+$("#end_time").val();
+        }
+        window.location.href = url;
+    });
 });
 
 var columns = [
