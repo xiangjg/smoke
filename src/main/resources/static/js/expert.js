@@ -229,42 +229,33 @@ var columns = [
     {
         field: 'no',
         title: '序号',
-        formatter: noFormatter,
-        cellStyle:cellStyle
+        formatter: noFormatter
     }, {
         field: 'proName',
-        title: '项目名称',
-        cellStyle:cellStyle
+        title: '项目名称'
     }, {
         field: 'reviewType',
         title: '评审类别',
-        formatter: typeFormatter,
-        cellStyle:cellStyle
+        formatter: typeFormatter
     }, {
         field: 'reviewTime',
         title: '评审时间',
-        formatter: dateFormatter,
-        cellStyle:cellStyle
+        formatter: dateFormatter
     }, {
         field: 'expNameSkill',
-        title: '技术专家姓名',
-        cellStyle:cellStyle
+        title: '技术专家姓名'
     }, {
         field: 'expUnitSkill',
-        title: '技术专家单位',
-        cellStyle:cellStyle
+        title: '技术专家单位'
     }, {
         field: 'expNameManage',
-        title: '经管专家姓名',
-        cellStyle:cellStyle
+        title: '经管专家姓名'
     }, {
         field: 'expUnitManage',
-        title: '经管专家单位',
-        cellStyle:cellStyle
+        title: '经管专家单位'
     }, {
         field: 'reviewCost',
-        title: '评审费用(元)',
-        cellStyle:cellStyle
+        title: '评审费用(元)'
     }
 ];
 

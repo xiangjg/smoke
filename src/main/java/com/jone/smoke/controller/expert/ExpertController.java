@@ -1,6 +1,7 @@
 package com.jone.smoke.controller.expert;
 
 import com.jone.smoke.controller.BaseController;
+import com.jone.smoke.dao.IDao;
 import com.jone.smoke.dao.custom.Criteria;
 import com.jone.smoke.dao.custom.Restrictions;
 import com.jone.smoke.dao.custom.SimpleExpression;
@@ -25,6 +26,7 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @EnableAutoConfiguration
@@ -35,6 +37,8 @@ public class ExpertController extends BaseController {
 
     @Autowired
     private SmokeExpertRepository smokeExpertRepository;
+    @Autowired
+    private IDao dao;
 
     @RequestMapping(value = "list")
     public ModelAndView index() {
@@ -152,6 +156,42 @@ public class ExpertController extends BaseController {
 
     }
 
+    @RequestMapping(value = "count")
+    public ModelAndView count() {
+        ModelAndView mv = new ModelAndView("expert/count");
+        return mv;
+    }
+
+    @RequestMapping(value = "count/query", method = RequestMethod.POST)
+    public void countQuery(HttpServletRequest request,HttpServletResponse response){
+        String unitName = request.getParameter("unitName");
+        String expName = request.getParameter("expName");
+        String reviewType = request.getParameter("reviewType");
+        String stTime = request.getParameter("stTime");
+        String eTime = request.getParameter("eTime");
+        StringBuffer sql = new StringBuffer("select expert_unit_skill as unit,expert_name_skill as name,count(1) as num,sum(review_cost) as cost from s_expert where 1=1 ");
+        try {
+            if(!StringUtils.isEmpty(unitName)){
+                sql.append(" and expert_unit_skill like '%"+unitName+"%' ");
+            }
+            if(!StringUtils.isEmpty(expName)){
+                sql.append(" and expert_name_skill like '%"+expName+"%' ");
+            }
+            if(!StringUtils.isEmpty(reviewType))
+                sql.append(" and review_type="+reviewType);
+            if(!StringUtils.isEmpty(stTime))
+                sql.append(" and review_time>=STR_TO_DATE("+stTime+",'%Y-%m-%d')");
+            if(!StringUtils.isEmpty(eTime))
+                sql.append(" and review_time<=STR_TO_DATE("+eTime+",'%Y-%m-%d')");
+            sql.append(" group by expert_unit_skill,expert_name_skill");
+            List<Map<String,Object>> list = dao.findBySqlToMap(sql.toString());
+            printJson(ResultUtil.success(list),response);
+        }catch (Exception e){
+            e.printStackTrace();
+            printJson(ResultUtil.error(-1, e.getMessage()), response);
+        }
+
+    }
 
     private SmokeExpert checkSmokeExpert(SmokeExpert se) {
         if (se.getReviewCost() == null)
