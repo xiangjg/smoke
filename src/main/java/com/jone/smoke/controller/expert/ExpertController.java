@@ -1,6 +1,9 @@
 package com.jone.smoke.controller.expert;
 
 import com.jone.smoke.controller.BaseController;
+import com.jone.smoke.dao.custom.Criteria;
+import com.jone.smoke.dao.custom.Restrictions;
+import com.jone.smoke.dao.custom.SimpleExpression;
 import com.jone.smoke.dao.expert.SmokeExpertRepository;
 import com.jone.smoke.entity.common.ResultUtil;
 import com.jone.smoke.entity.expert.SmokeExpert;
@@ -19,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.FileInputStream;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -115,16 +119,37 @@ public class ExpertController extends BaseController {
     @RequestMapping(value = "query", method = RequestMethod.POST)
     public void query(HttpServletRequest request,HttpServletResponse response){
         String proName = request.getParameter("proName");
-        if(StringUtils.isEmpty(proName))
-            proName = "";
-        String unitName = request.getParameter("proName");
-        if(StringUtils.isEmpty(unitName))
-            unitName = "";
-        String expName = request.getParameter("proName");
-        if(StringUtils.isEmpty(expName))
-            expName = "";
-        List<SmokeExpert> list = smokeExpertRepository.findByProNameLikeOrExpNameManageLikeOrExpNameSkillLikeOrExpUnitManageLikeOrExpUnitSkillLike(proName,expName,expName,unitName,unitName);
-        printJson(ResultUtil.success(list),response);
+        String unitName = request.getParameter("unitName");
+        String expName = request.getParameter("expName");
+        String reviewType = request.getParameter("reviewType");
+        String stTime = request.getParameter("stTime");
+        String eTime = request.getParameter("eTime");
+        SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-DD");
+        Criteria<SmokeExpert> criteria = new Criteria<>();
+        try {
+            if(!StringUtils.isEmpty(proName))
+                criteria.add(Restrictions.like("proName", proName, true));
+            if(!StringUtils.isEmpty(unitName)){
+                criteria.add(Restrictions.like("expUnitSkill", unitName, true));
+                criteria.add(Restrictions.like("expUnitManage", unitName, true));
+            }
+            if(!StringUtils.isEmpty(expName)){
+                criteria.add(Restrictions.like("expNameSkill", expName, true));
+                criteria.add(Restrictions.like("expNameManage", expName, true));
+            }
+            if(!StringUtils.isEmpty(reviewType))
+                criteria.add(Restrictions.eq("reviewType", reviewType, true));
+            if(!StringUtils.isEmpty(stTime))
+                criteria.add(Restrictions.gt("reviewTime", sdf.parse(stTime), true));//"STR_TO_DATE("+stTime+",'%Y-%m-%d')"
+            if(!StringUtils.isEmpty(eTime))
+                criteria.add(Restrictions.lt("reviewTime", sdf.parse(eTime), true));
+            List<SmokeExpert> list = smokeExpertRepository.findAll(criteria);
+            printJson(ResultUtil.success(list),response);
+        }catch (Exception e){
+            e.printStackTrace();
+            printJson(ResultUtil.error(-1, e.getMessage()), response);
+        }
+
     }
 
 

@@ -12,6 +12,10 @@ $(function () {
             param.expName = $("#expName").val();
         if($("#reviewType").val())
             param.reviewType = $("#reviewType").val();
+        if($("#start_time").val())
+            param.stTime = $("#start_time").val();
+        if($("#end_time").val())
+            param.eTime = $("#end_time").val();
         $.ajax({
             url: '/expert/query',
             dataType: "json",
@@ -149,6 +153,7 @@ var uploadColumns = [
     }, {
         field: 'reviewTime',
         title: '评审时间',
+        formatter: dateFormatter,
         cellStyle:cellStyle
     }, {
         field: 'expNameSkill',
@@ -179,6 +184,13 @@ var uploadColumns = [
 
 function noFormatter(value, row, index) {
     return index + 1;
+}
+
+function dateFormatter(value, row, index) {
+    if(value)
+        return moment(value).format('YYYY-MM-DD');
+    else
+        return '-';
 }
 
 function typeFormatter(value, row, index) {
@@ -231,6 +243,7 @@ var columns = [
     }, {
         field: 'reviewTime',
         title: '评审时间',
+        formatter: dateFormatter,
         cellStyle:cellStyle
     }, {
         field: 'expNameSkill',
