@@ -24,7 +24,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.FileInputStream;
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -45,7 +44,6 @@ public class ExpertController extends BaseController {
     @RequestMapping(value = "list")
     public ModelAndView index() {
         ModelAndView mv = new ModelAndView("expert/list");
-        //mv.addObject("title", systemProperties.getName());
         return mv;
     }
 
@@ -80,7 +78,7 @@ public class ExpertController extends BaseController {
                             se.setReviewType(decodeType(val));
                             break;
                         case 3:
-                            //se.setReviewTime(val);
+                            se.setReviewTime(sdf.parse(val));
                             break;
                         case 4:
                             se.setExpNameSkill(val);
@@ -130,7 +128,6 @@ public class ExpertController extends BaseController {
         String reviewType = request.getParameter("reviewType");
         String stTime = request.getParameter("stTime");
         String eTime = request.getParameter("eTime");
-        SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-DD");
         Criteria<SmokeExpert> criteria = new Criteria<>();
         try {
             if(!StringUtils.isEmpty(proName))
@@ -244,6 +241,12 @@ public class ExpertController extends BaseController {
     private SmokeExpert checkSmokeExpert(SmokeExpert se) {
         if (se.getReviewCost() == null)
             se.setRemark("评审费用不能为空");
+        if (se.getReviewType() == null)
+            se.setRemark("评审类别不能为空");
+        if (se.getExpNameSkill() == null || se.getExpNameManage() == null)
+            se.setRemark("姓名不能为空");
+        if (se.getExpUnitManage() == null || se.getExpUnitSkill() == null)
+            se.setRemark("单位不能为空");
         return se;
     }
 

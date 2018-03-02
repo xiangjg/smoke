@@ -1,5 +1,7 @@
 package com.jone.smoke.util;
 
+import org.apache.commons.lang.time.DateFormatUtils;
+import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
@@ -11,6 +13,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ExcelUtil {
@@ -560,7 +563,12 @@ public class ExcelUtil {
                     result = cell.getStringCellValue();
                     break;
                 case Cell.CELL_TYPE_NUMERIC:
-                    result = String.valueOf(cell.getNumericCellValue());
+                    if (HSSFDateUtil.isCellDateFormatted(cell)) {
+                        Date date = cell.getDateCellValue();
+                        result = DateFormatUtils.format(date, "yyyy-MM-dd");
+                    } else {
+                        result = String.valueOf(cell.getNumericCellValue());
+                    }
 //                    DecimalFormat df = new DecimalFormat("0");
 //                    result = df.format(cell.getNumericCellValue());
                     break;

@@ -11,9 +11,12 @@ import org.slf4j.LoggerFactory;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 
 public class BaseController {
     protected static Logger logger = LoggerFactory.getLogger(BaseController.class);
+
+    protected SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
     /**
      * 打印json格式
      *

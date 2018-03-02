@@ -186,7 +186,7 @@ function noFormatter(value, row, index) {
     return index + 1;
 }
 
-function dateFormatter(value, row, index) {
+function dateFormatter(value, row, index) {console.log(value)
     if(value)
         return moment(value).format('YYYY-MM-DD');
     else
