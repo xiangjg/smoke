@@ -2,7 +2,7 @@ spring:
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/smokedb?useUnicode=true&characterEncoding=utf8&characterSetResults=utf8&useSSL=true
     username: root
-    password: root
+    password: 92xx1314
     driver-class-name: com.mysql.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
     # 初始化大小，最小，最大
@@ -67,5 +67,6 @@ system:
   name: 项目评审统计
 server:
   #context-path: /water-safe
-  port: 8080
+  port: 8088
+name: smoke
 
