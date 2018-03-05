@@ -86,7 +86,7 @@ var myupload = function () {
                         $("#dataTable").bootstrapTable('destroy');
                         $('#dataTable').bootstrapTable({
                             columns: uploadColumns,
-                            pageSize: 20,
+                            pageSize: 10,
                             pageList: [10, 25, 50, 100],
                             pagination: true,
                             data:data.data
