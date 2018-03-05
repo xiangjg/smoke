@@ -1,44 +1,49 @@
 $(function () {
     initFileInput();
 
+    queryData();
     $("#check").click(function () {
-        var index = layer.load(1);
-        var param = {};
-        if($("#proName").val())
-            param.proName = $("#proName").val();
-        if($("#unitName").val())
-            param.unitName = $("#unitName").val();
-        if($("#expName").val())
-            param.expName = $("#expName").val();
-        if($("#reviewType").val())
-            param.reviewType = $("#reviewType").val();
-        if($("#start_time").val())
-            param.stTime = $("#start_time").val();
-        if($("#end_time").val())
-            param.eTime = $("#end_time").val();
-        $.ajax({
-            url: '/expert/query',
-            dataType: "json",
-            type: "post",
-            data: param,
-            success:function (_data) {
-                if(_data&&_data.code==0){
-                    layer.close(index);
-                    $("#expert_table").bootstrapTable('destroy');
-                    $('#expert_table').bootstrapTable({
-                        columns: columns,
-                        pageSize: 20,
-                        pageList: [10, 25, 50, 100],
-                        pagination: true,
-                        data:_data.data
-                    });
-                }else{
-                    layer.msg(_data.message);
-                }
-            }
-        });
+        queryData();
     });
 });
+
+var queryData = function () {
+    var index = layer.load(1);
+    var param = {};
+    if($("#proName").val())
+        param.proName = $("#proName").val();
+    if($("#unitName").val())
+        param.unitName = $("#unitName").val();
+    if($("#expName").val())
+        param.expName = $("#expName").val();
+    if($("#reviewType").val())
+        param.reviewType = $("#reviewType").val();
+    if($("#start_time").val())
+        param.stTime = $("#start_time").val();
+    if($("#end_time").val())
+        param.eTime = $("#end_time").val();
+    $.ajax({
+        url: '/expert/query',
+        dataType: "json",
+        type: "post",
+        data: param,
+        success:function (_data) {
+            if(_data&&_data.code==0){
+                layer.close(index);
+                $("#expert_table").bootstrapTable('destroy');
+                $('#expert_table').bootstrapTable({
+                    columns: columns,
+                    pageSize: 20,
+                    pageList: [10, 25, 50, 100],
+                    pagination: true,
+                    data:_data.data
+                });
+            }else{
+                layer.msg(_data.message);
+            }
+        }
+    });
+}
 
 var initFileInput = function () {
     $('#id-input-file-1').ace_file_input({
@@ -225,8 +230,10 @@ function cellStyle(value, row, index) {
 }
 
 
-var columns = [
-    {
+var columns = [{
+        field: 'checkbox',
+        checkbox: true
+    },{
         field: 'no',
         title: '序号',
         formatter: noFormatter
@@ -256,8 +263,69 @@ var columns = [
     }, {
         field: 'reviewCost',
         title: '评审费用(元)'
+    }, {
+        field: 'operate',
+        title: '操作',
+        formatter: operateFormatter
     }
 ];
+
+function operateFormatter(value, row, index) {
+    return [
+       // '<a onclick="edit(\'' + row.id + '\')" type="button" class="btn btn-xs btn-info" style="margin-right:15px;"><i class=\'ace-icon fa fa-pencil-square-o\'></i></a>',
+        '<a onclick="del(\'' + row.id + '\')" type="button" class="btn btn-minier btn-danger" style="margin-right:15px;"><i class=\'ace-icon fa fa-trash-o\'></i></a>'
+    ].join('');
+}
+
+function del(id) {
+    layer.confirm('您确定要删除该记录吗?', {icon: 3, title: '提示'}, function (index) {
+        $.ajax({
+            url: "/expert/delete",
+            dataType: "json",
+            type: "post",
+            data: {id: id},
+            success: function (_data) {
+                if (_data && _data.code == 0) {
+                    layer.msg("删除成功");
+                    queryData();
+                } else {
+                    layer.msg("删除失败," + _data.message);
+                }
+                layer.close(index);
+            }
+        });
+    });
+}
+
+function deleteSelectData() {
+    var datas = $("#expert_table").bootstrapTable('getAllSelections');
+    if (!datas || datas.length == 0) {
+        layer.msg("请选择您要删除的记录");
+        return;
+    } else {
+        var dataIds = "";
+        datas.forEach(function (data) {
+            dataIds += data.id + ",";
+        })
+        layer.confirm('您确定要删除选择的记录吗?', {icon: 3, title: '提示'}, function (index) {
+            $.ajax({
+                url: "/expert/deleteDataArr",
+                dataType: "json",
+                type: "post",
+                data: {dataIds: dataIds},
+                success: function (_data) {
+                    if (_data && _data.code == 0) {
+                        layer.msg("删除成功");
+                        queryData();
+                    } else {
+                        layer.msg("删除失败," + _data.message);
+                    }
+                    layer.close(index);
+                }
+            });
+        });
+    }
+}
 
 $('#expert_table').bootstrapTable({
     columns: columns,

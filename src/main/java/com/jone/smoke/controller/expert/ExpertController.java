@@ -238,6 +238,32 @@ public class ExpertController extends BaseController {
         }
     }
 
+    @RequestMapping(value = "/delete")
+    public void delete(@RequestParam String id, HttpServletResponse response){
+        try {
+            smokeExpertRepository.delete(Integer.parseInt(id));
+            printJson(ResultUtil.success(),response);
+        }catch (Exception e){
+            logger.error("{}",e);
+            printJson(ResultUtil.error(-1,e.getMessage()),response);
+        }
+    }
+
+    @RequestMapping(value = "/deleteDataArr")
+    public void deleteDataArr(@RequestParam String dataIds, HttpServletResponse response){
+        try {
+            String[] ids = dataIds.split(",");
+            for (String id: ids
+                    ) {
+                smokeExpertRepository.delete(smokeExpertRepository.findOne(Integer.parseInt(id)));
+            }
+            printJson(ResultUtil.success(),response);
+        }catch (Exception e){
+            logger.error("{}",e);
+            printJson(ResultUtil.error(-1,e.getMessage()),response);
+        }
+    }
+
     private SmokeExpert checkSmokeExpert(SmokeExpert se) {
         if (se.getReviewCost() == null)
             se.setRemark("评审费用不能为空");
