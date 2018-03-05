@@ -6,39 +6,7 @@ $(function () {
         pagination: true
     });
     $("#check").click(function () {
-        var index = layer.load(1);
-        var param = {};
-        if($("#unitName").val())
-            param.unitName = $("#unitName").val();
-        if($("#expName").val())
-            param.expName = $("#expName").val();
-        if($("#reviewType").val())
-            param.reviewType = $("#reviewType").val();
-        if($("#start_time").val())
-            param.stTime = $("#start_time").val();
-        if($("#end_time").val())
-            param.eTime = $("#end_time").val();
-        $.ajax({
-            url: '/expert/count/query',
-            dataType: "json",
-            type: "post",
-            data: param,
-            success:function (_data) {
-                if(_data&&_data.code==0){
-                    layer.close(index);
-                    $("#expert_table").bootstrapTable('destroy');
-                    $('#expert_table').bootstrapTable({
-                        columns: columns,
-                        pageSize: 10,
-                        pageList: [10, 25, 50, 100],
-                        pagination: true,
-                        data:_data.data
-                    });
-                }else{
-                    layer.msg(_data.message);
-                }
-            }
-        });
+        queryData();
     });
     $("#export").click(function () {
         var url = '/expert/count/export',first = false;
@@ -78,7 +46,45 @@ $(function () {
         }
         window.location.href = url;
     });
+
+    queryData();
 });
+
+var queryData = function () {
+    var index = layer.load(1);
+    var param = {};
+    if($("#unitName").val())
+        param.unitName = $("#unitName").val();
+    if($("#expName").val())
+        param.expName = $("#expName").val();
+    if($("#reviewType").val())
+        param.reviewType = $("#reviewType").val();
+    if($("#start_time").val())
+        param.stTime = $("#start_time").val();
+    if($("#end_time").val())
+        param.eTime = $("#end_time").val();
+    $.ajax({
+        url: '/expert/count/query',
+        dataType: "json",
+        type: "post",
+        data: param,
+        success:function (_data) {
+            if(_data&&_data.code==0){
+                layer.close(index);
+                $("#expert_table").bootstrapTable('destroy');
+                $('#expert_table').bootstrapTable({
+                    columns: columns,
+                    pageSize: 10,
+                    pageList: [10, 25, 50, 100],
+                    pagination: true,
+                    data:_data.data
+                });
+            }else{
+                layer.msg(_data.message);
+            }
+        }
+    });
+}
 
 var columns = [
     {
