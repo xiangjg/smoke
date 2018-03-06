@@ -128,25 +128,46 @@ public class ExpertController extends BaseController {
         String reviewType = request.getParameter("reviewType");
         String stTime = request.getParameter("stTime");
         String eTime = request.getParameter("eTime");
-        Criteria<SmokeExpert> criteria = new Criteria<>();
+//        Criteria<SmokeExpert> criteria = new Criteria<>();
+        StringBuffer sql = new StringBuffer("select id,project_name as proName,review_type as reviewType,review_time as reviewTime,");
+        sql.append("expert_name_skill as expNameSkill,expert_unit_skill as expUnitSkill,expert_name_manage as expNameManage,");
+        sql.append("expert_unit_manage as expUnitManage,review_cost as reviewCost from s_expert where 1=1 ");
         try {
-            if(!StringUtils.isEmpty(proName))
-                criteria.add(Restrictions.like("proName", proName, true));
+//            if(!StringUtils.isEmpty(proName))
+//                criteria.add(Restrictions.like("proName", proName, true));
+//            if(!StringUtils.isEmpty(unitName)){
+//                criteria.add(Restrictions.like("expUnitSkill", unitName, true));
+//                //criteria.add(Restrictions.like("expUnitManage", unitName, true));
+//            }
+//            if(!StringUtils.isEmpty(expName)){
+//                criteria.add(Restrictions.like("expNameSkill", expName, true));
+//                //criteria.add(Restrictions.like("expNameManage", expName, true));
+//            }
+//            if(!StringUtils.isEmpty(reviewType))
+//                criteria.add(Restrictions.eq("reviewType", reviewType, true));
+//            if(!StringUtils.isEmpty(stTime))
+//                criteria.add(Restrictions.gt("reviewTime", sdf.parse(stTime), true));//"STR_TO_DATE("+stTime+",'%Y-%m-%d')"
+//            if(!StringUtils.isEmpty(eTime))
+//                criteria.add(Restrictions.lt("reviewTime", sdf.parse(eTime), true));
+//
+//            List<SmokeExpert> list = smokeExpertRepository.findAll(criteria);
+            if(!StringUtils.isEmpty(proName)){
+                sql.append(" and project_name like '%"+proName+"%' ");
+            }
             if(!StringUtils.isEmpty(unitName)){
-                criteria.add(Restrictions.like("expUnitSkill", unitName, true));
-                criteria.add(Restrictions.like("expUnitManage", unitName, true));
+                sql.append(" and (expert_unit_skill like '%"+unitName+"%' or expert_unit_manage like '%"+unitName+"%') ");
             }
             if(!StringUtils.isEmpty(expName)){
-                criteria.add(Restrictions.like("expNameSkill", expName, true));
-                criteria.add(Restrictions.like("expNameManage", expName, true));
+                sql.append(" and (expert_name_skill like '%"+expName+"%' or expert_name_manage like '%"+expName+"%') ");
             }
             if(!StringUtils.isEmpty(reviewType))
-                criteria.add(Restrictions.eq("reviewType", reviewType, true));
+                sql.append(" and review_type="+reviewType);
             if(!StringUtils.isEmpty(stTime))
-                criteria.add(Restrictions.gt("reviewTime", sdf.parse(stTime), true));//"STR_TO_DATE("+stTime+",'%Y-%m-%d')"
+                sql.append(" and review_time>=STR_TO_DATE("+stTime+",'%Y-%m-%d')");
             if(!StringUtils.isEmpty(eTime))
-                criteria.add(Restrictions.lt("reviewTime", sdf.parse(eTime), true));
-            List<SmokeExpert> list = smokeExpertRepository.findAll(criteria);
+                sql.append(" and review_time<=STR_TO_DATE("+eTime+",'%Y-%m-%d')");
+            sql.append(" order by expert_unit_skill,review_time desc");
+            List<Map<String,Object>> list = dao.findBySqlToMap(sql.toString());
             printJson(ResultUtil.success(list),response);
         }catch (Exception e){
             e.printStackTrace();
@@ -171,10 +192,10 @@ public class ExpertController extends BaseController {
         StringBuffer sql = new StringBuffer("select expert_unit_skill as unit,expert_name_skill as name,count(1) as num,sum(review_cost) as cost from s_expert where 1=1 ");
         try {
             if(!StringUtils.isEmpty(unitName)){
-                sql.append(" and expert_unit_skill like '%"+unitName+"%' ");
+                sql.append(" and (expert_unit_skill like '%"+unitName+"%' or expert_unit_manage like '%"+unitName+"%') ");
             }
             if(!StringUtils.isEmpty(expName)){
-                sql.append(" and expert_name_skill like '%"+expName+"%' ");
+                sql.append(" and (expert_name_skill like '%"+expName+"%' or expert_name_manage like '%"+expName+"%') ");
             }
             if(!StringUtils.isEmpty(reviewType))
                 sql.append(" and review_type="+reviewType);
@@ -273,10 +294,10 @@ public class ExpertController extends BaseController {
             sb.append("评审费用不能为空;");
         if (se.getReviewType() == null)
             sb.append("评审类别不能为空;");
-        if (se.getExpNameSkill() == null || se.getExpNameManage() == null)
-            sb.append("姓名不能为空;");
-        if (se.getExpUnitManage() == null || se.getExpUnitSkill() == null)
-            sb.append("单位不能为空;");
+//        if (se.getExpNameSkill() == null || se.getExpNameManage() == null)
+//            sb.append("姓名不能为空;");
+//        if (se.getExpUnitManage() == null || se.getExpUnitSkill() == null)
+//            sb.append("单位不能为空;");
         se.setRemark(sb.toString());
         return se;
     }

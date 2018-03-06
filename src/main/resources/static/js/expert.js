@@ -191,7 +191,7 @@ function noFormatter(value, row, index) {
     return index + 1;
 }
 
-function dateFormatter(value, row, index) {console.log(value)
+function dateFormatter(value, row, index) {
     if(value)
         return moment(value).format('YYYY-MM-DD');
     else
@@ -223,7 +223,7 @@ function typeFormatter(value, row, index) {
 }
 
 function cellStyle(value, row, index) {
-    if(row.remark!=null)
+    if(row.remark&&row.remark.length>0)
         return { css: {"background-color": "rgba(255, 100, 48, 0.54)"}};
     else
         return { css: {"background-color": "rgba(255, 255, 255, 0.33)"}};
