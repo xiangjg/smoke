@@ -33,7 +33,7 @@ var queryData = function () {
                 $("#expert_table").bootstrapTable('destroy');
                 $('#expert_table').bootstrapTable({
                     columns: columns,
-                    pageSize: 20,
+                    pageSize: 10,
                     pageList: [10, 25, 50, 100],
                     pagination: true,
                     data:_data.data
