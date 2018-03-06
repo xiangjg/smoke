@@ -253,10 +253,13 @@ public class ExpertController extends BaseController {
     public void deleteDataArr(@RequestParam String dataIds, HttpServletResponse response){
         try {
             String[] ids = dataIds.split(",");
+            List<Integer> delIds = new ArrayList<>();
             for (String id: ids
                     ) {
-                smokeExpertRepository.delete(smokeExpertRepository.findOne(Integer.parseInt(id)));
+                delIds.add(Integer.parseInt(id));
+                //smokeExpertRepository.delete(smokeExpertRepository.findOne(Integer.parseInt(id)));
             }
+            smokeExpertRepository.deleteByIdIn(delIds);
             printJson(ResultUtil.success(),response);
         }catch (Exception e){
             logger.error("{}",e);
