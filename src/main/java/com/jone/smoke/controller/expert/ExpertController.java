@@ -268,14 +268,16 @@ public class ExpertController extends BaseController {
     }
 
     private SmokeExpert checkSmokeExpert(SmokeExpert se) {
+        StringBuffer sb = new StringBuffer("");
         if (se.getReviewCost() == null)
-            se.setRemark("评审费用不能为空");
+            sb.append("评审费用不能为空;");
         if (se.getReviewType() == null)
-            se.setRemark("评审类别不能为空");
+            sb.append("评审类别不能为空;");
         if (se.getExpNameSkill() == null || se.getExpNameManage() == null)
-            se.setRemark("姓名不能为空");
+            sb.append("姓名不能为空;");
         if (se.getExpUnitManage() == null || se.getExpUnitSkill() == null)
-            se.setRemark("单位不能为空");
+            sb.append("单位不能为空;");
+        se.setRemark(sb.toString());
         return se;
     }
 
