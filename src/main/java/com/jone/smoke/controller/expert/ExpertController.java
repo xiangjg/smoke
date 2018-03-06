@@ -163,9 +163,10 @@ public class ExpertController extends BaseController {
             if(!StringUtils.isEmpty(reviewType))
                 sql.append(" and review_type="+reviewType);
             if(!StringUtils.isEmpty(stTime))
-                sql.append(" and review_time>=STR_TO_DATE("+stTime+",'%Y-%m-%d')");
+                sql.append(" and DATE_FORMAT(review_time,'%Y%m%d')>="+stTime.replace("-","")+"");
+                //sql.append(" and review_time>=STR_TO_DATE("+stTime+",'%Y-%m-%d')");
             if(!StringUtils.isEmpty(eTime))
-                sql.append(" and review_time<=STR_TO_DATE("+eTime+",'%Y-%m-%d')");
+                sql.append(" and DATE_FORMAT(review_time,'%Y%m%d')<="+eTime.replace("-","")+"");
             sql.append(" order by expert_unit_skill,review_time desc");
             List<Map<String,Object>> list = dao.findBySqlToMap(sql.toString());
             printJson(ResultUtil.success(list),response);
@@ -200,9 +201,10 @@ public class ExpertController extends BaseController {
             if(!StringUtils.isEmpty(reviewType))
                 sql.append(" and review_type="+reviewType);
             if(!StringUtils.isEmpty(stTime))
-                sql.append(" and review_time>=STR_TO_DATE("+stTime+",'%Y-%m-%d')");
+                sql.append(" and DATE_FORMAT(review_time,'%Y%m%d')>="+stTime.replace("-","")+"");
+            //sql.append(" and review_time>=STR_TO_DATE("+stTime+",'%Y-%m-%d')");
             if(!StringUtils.isEmpty(eTime))
-                sql.append(" and review_time<=STR_TO_DATE("+eTime+",'%Y-%m-%d')");
+                sql.append(" and DATE_FORMAT(review_time,'%Y%m%d')<="+eTime.replace("-","")+"");
             sql.append(" group by expert_unit_skill,expert_name_skill");
             List<Map<String,Object>> list = dao.findBySqlToMap(sql.toString());
             printJson(ResultUtil.success(list),response);
@@ -222,17 +224,18 @@ public class ExpertController extends BaseController {
         StringBuffer sql = new StringBuffer("select expert_unit_skill as unit,expert_name_skill as name,count(1) as num,sum(review_cost) as cost from s_expert where 1=1 ");
         try {
             if(!StringUtils.isEmpty(unitName)){
-                sql.append(" and expert_unit_skill like '%"+unitName+"%' ");
+                sql.append(" and (expert_unit_skill like '%"+unitName+"%' or expert_unit_manage like '%"+unitName+"%') ");
             }
             if(!StringUtils.isEmpty(expName)){
-                sql.append(" and expert_name_skill like '%"+expName+"%' ");
+                sql.append(" and (expert_name_skill like '%"+expName+"%' or expert_name_manage like '%"+expName+"%') ");
             }
             if(!StringUtils.isEmpty(reviewType))
                 sql.append(" and review_type="+reviewType);
             if(!StringUtils.isEmpty(stTime))
-                sql.append(" and review_time>=STR_TO_DATE("+stTime+",'%Y-%m-%d')");
+                sql.append(" and DATE_FORMAT(review_time,'%Y%m%d')>="+stTime.replace("-","")+"");
+            //sql.append(" and review_time>=STR_TO_DATE("+stTime+",'%Y-%m-%d')");
             if(!StringUtils.isEmpty(eTime))
-                sql.append(" and review_time<=STR_TO_DATE("+eTime+",'%Y-%m-%d')");
+                sql.append(" and DATE_FORMAT(review_time,'%Y%m%d')<="+eTime.replace("-","")+"");
             sql.append(" group by expert_unit_skill,expert_name_skill");
             List<Map<String,Object>> list = dao.findBySqlToMap(sql.toString());
             if(list!=null&&list.size()>0){
