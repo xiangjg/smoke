@@ -31,6 +31,13 @@ $(function () {
                 url+= '&reviewType='+$("#reviewType").val();
             first = true;
         }
+        if($("#expType").val()){
+            if(!first)
+                url+= '?expType='+$("#expType").val();
+            else
+                url+= '&expType='+$("#expType").val();
+            first = true;
+        }
         if($("#start_time").val()){
             if(!first)
                 url+= '?stTime='+$("#start_time").val();
@@ -59,6 +66,8 @@ var queryData = function () {
         param.expName = $("#expName").val();
     if($("#reviewType").val())
         param.reviewType = $("#reviewType").val();
+    if($("#expType").val())
+        param.expType = $("#expType").val();
     if($("#start_time").val())
         param.stTime = $("#start_time").val();
     if($("#end_time").val())
@@ -93,10 +102,14 @@ var columns = [
         formatter: noFormatter
     }, {
         field: 'unit',
-        title: '单位'
+        title: '专家单位'
     }, {
         field: 'name',
-        title: '姓名'
+        title: '专家姓名'
+    }, {
+        field: 'type',
+        title: '专家类别',
+        formatter: typeExpFormatter
     }, {
         field: 'num',
         title: '评审次数'
@@ -105,6 +118,21 @@ var columns = [
         title: '评审费用(元)'
     }
 ];
+
+function typeExpFormatter(value, row, index) {
+    var _val = "";
+    switch (parseInt(value)){
+        case 1:
+            _val = "技术专家";
+            break
+        case 2:
+            _val = "经管专家";
+            break;
+        default:
+            break;
+    }
+    return _val;
+}
 
 function noFormatter(value, row, index) {
     return index + 1;

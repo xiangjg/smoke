@@ -26,7 +26,7 @@
                            placeholder="这里输入专家名称"/>
                 </td>
                 <td style="vertical-align:top;">
-                    <select style="width: 150px;margin-left: 5px" id="reviewType">
+                    <select style="width: 130px;margin-left: 5px" id="reviewType">
                         <option value="" selected>请选择评审类别</option>
                         <option value="1">立项评审</option>
                         <option value="2">检查评价</option>
@@ -36,13 +36,20 @@
                     </select>
                 </td>
                 <td style="vertical-align:top;">
+                    <select style="width: 130px;margin-left: 5px" id="expType">
+                        <option value="" selected>请选择专家类别</option>
+                        <option value="1">技术专家</option>
+                        <option value="2">经管专家</option>
+                    </select>
+                </td>
+                <td style="vertical-align:top;">
                     <label style="margin-left: 5px;">起始时间：</label>
-                    <input id="start_time" type="text" style="height: 30px" class="Wdate"
+                    <input id="start_time" type="text" style="height: 30px;width: 100px" class="Wdate"
                            onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd'})" readonly>
                 </td>
                 <td style="vertical-align:top;">
                     <label style="margin-left: 5px;">结束时间：</label>
-                    <input id="end_time" type="text" style="height: 30px" class="Wdate"
+                    <input id="end_time" type="text" style="height: 30px;width: 100px" class="Wdate"
                            onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd'})" readonly>
                 </td>
                 <td style="vertical-align:top;">

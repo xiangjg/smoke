@@ -18,6 +18,8 @@ var queryData = function () {
         param.expName = $("#expName").val();
     if($("#reviewType").val())
         param.reviewType = $("#reviewType").val();
+    if($("#expType").val())
+        param.expType = $("#expType").val();
     if($("#start_time").val())
         param.stTime = $("#start_time").val();
     if($("#end_time").val())
