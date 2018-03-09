@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
-@Table(name="s_expert",schema="sysdb")
+@Table(name="s_expert")
 public class SmokeExpert implements Serializable {
     @Id
     @GeneratedValue
@@ -25,10 +25,11 @@ public class SmokeExpert implements Serializable {
     private String expNameSkill;
     @Column(name="expert_unit_skill")
     private String expUnitSkill;
-    @Column(name="expert_name_manage")
-    private String expNameManage;
-    @Column(name="expert_unit_manage")
-    private String expUnitManage;
+    /**
+     * 专家类型：1：技术专家 2：经管专家
+     */
+    @Column(name="expert_type")
+    private Integer expNameType;
     @Column(name="review_cost")
     private BigDecimal reviewCost;
     @Transient//非数据库字段
@@ -82,20 +83,12 @@ public class SmokeExpert implements Serializable {
         this.expUnitSkill = expUnitSkill;
     }
 
-    public String getExpNameManage() {
-        return expNameManage;
+    public Integer getExpNameType() {
+        return expNameType;
     }
 
-    public void setExpNameManage(String expNameManage) {
-        this.expNameManage = expNameManage;
-    }
-
-    public String getExpUnitManage() {
-        return expUnitManage;
-    }
-
-    public void setExpUnitManage(String expUnitManage) {
-        this.expUnitManage = expUnitManage;
+    public void setExpNameType(Integer expNameType) {
+        this.expNameType = expNameType;
     }
 
     public BigDecimal getReviewCost() {

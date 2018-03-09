@@ -81,18 +81,15 @@ public class ExpertController extends BaseController {
                             se.setReviewTime(sdf.parse(val));
                             break;
                         case 4:
-                            se.setExpNameSkill(val);
-                            break;
-                        case 5:
                             se.setExpUnitSkill(val);
                             break;
+                        case 5:
+                            se.setExpNameType(decodeExpType(val));
+                            break;
                         case 6:
-                            se.setExpNameManage(val);
+                            se.setExpNameSkill(val);
                             break;
                         case 7:
-                            se.setExpUnitManage(val);
-                            break;
-                        case 8:
                             se.setReviewCost(new BigDecimal(val));
                             break;
                         default:
@@ -130,8 +127,8 @@ public class ExpertController extends BaseController {
         String eTime = request.getParameter("eTime");
 //        Criteria<SmokeExpert> criteria = new Criteria<>();
         StringBuffer sql = new StringBuffer("select id,project_name as proName,review_type as reviewType,review_time as reviewTime,");
-        sql.append("expert_name_skill as expNameSkill,expert_unit_skill as expUnitSkill,expert_name_manage as expNameManage,");
-        sql.append("expert_unit_manage as expUnitManage,review_cost as reviewCost from s_expert where 1=1 ");
+        sql.append("expert_name_skill as expNameSkill,expert_unit_skill as expUnitSkill,expert_type as expType,");
+        sql.append("review_cost as reviewCost from s_expert where 1=1 ");
         try {
 //            if(!StringUtils.isEmpty(proName))
 //                criteria.add(Restrictions.like("proName", proName, true));
@@ -155,10 +152,10 @@ public class ExpertController extends BaseController {
                 sql.append(" and project_name like '%"+proName+"%' ");
             }
             if(!StringUtils.isEmpty(unitName)){
-                sql.append(" and (expert_unit_skill like '%"+unitName+"%' or expert_unit_manage like '%"+unitName+"%') ");
+                sql.append(" and expert_unit_skill like '%"+unitName+"%' ");
             }
             if(!StringUtils.isEmpty(expName)){
-                sql.append(" and (expert_name_skill like '%"+expName+"%' or expert_name_manage like '%"+expName+"%') ");
+                sql.append(" and expert_name_skill like '%"+expName+"%' ");
             }
             if(!StringUtils.isEmpty(reviewType))
                 sql.append(" and review_type="+reviewType);
@@ -193,10 +190,10 @@ public class ExpertController extends BaseController {
         StringBuffer sql = new StringBuffer("select expert_unit_skill as unit,expert_name_skill as name,count(1) as num,sum(review_cost) as cost from s_expert where 1=1 ");
         try {
             if(!StringUtils.isEmpty(unitName)){
-                sql.append(" and (expert_unit_skill like '%"+unitName+"%' or expert_unit_manage like '%"+unitName+"%') ");
+                sql.append(" and expert_unit_skill like '%"+unitName+"%' ");
             }
             if(!StringUtils.isEmpty(expName)){
-                sql.append(" and (expert_name_skill like '%"+expName+"%' or expert_name_manage like '%"+expName+"%') ");
+                sql.append(" and expert_name_skill like '%"+expName+"%' ");
             }
             if(!StringUtils.isEmpty(reviewType))
                 sql.append(" and review_type="+reviewType);
@@ -224,10 +221,10 @@ public class ExpertController extends BaseController {
         StringBuffer sql = new StringBuffer("select expert_unit_skill as unit,expert_name_skill as name,count(1) as num,sum(review_cost) as cost from s_expert where 1=1 ");
         try {
             if(!StringUtils.isEmpty(unitName)){
-                sql.append(" and (expert_unit_skill like '%"+unitName+"%' or expert_unit_manage like '%"+unitName+"%') ");
+                sql.append(" and expert_unit_skill like '%"+unitName+"%' ");
             }
             if(!StringUtils.isEmpty(expName)){
-                sql.append(" and (expert_name_skill like '%"+expName+"%' or expert_name_manage like '%"+expName+"%') ");
+                sql.append(" and expert_name_skill like '%"+expName+"%' ");
             }
             if(!StringUtils.isEmpty(reviewType))
                 sql.append(" and review_type="+reviewType);
@@ -295,8 +292,10 @@ public class ExpertController extends BaseController {
         StringBuffer sb = new StringBuffer("");
         if (se.getReviewCost() == null)
             sb.append("评审费用不能为空;");
-        if (se.getReviewType() == null)
-            sb.append("评审类别不能为空;");
+        if (se.getReviewType() == 0)
+            sb.append("评审类别错误;");
+        if (se.getExpNameType() == 0)
+            sb.append("专家类别错误;");
 //        if (se.getExpNameSkill() == null || se.getExpNameManage() == null)
 //            sb.append("姓名不能为空;");
 //        if (se.getExpUnitManage() == null || se.getExpUnitSkill() == null)
@@ -323,6 +322,22 @@ public class ExpertController extends BaseController {
                 break;
             case "结题评审":
                 val = 5;
+                break;
+            default:
+                break;
+        }
+        return val;
+    }
+
+    private Integer decodeExpType(String str) {
+        //1：技术专家 2：经管专家
+        Integer val = 0;
+        switch (str) {
+            case "技术专家":
+                val = 1;
+                break;
+            case "经管专家":
+                val = 2;
                 break;
             default:
                 break;

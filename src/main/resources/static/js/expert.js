@@ -169,13 +169,9 @@ var uploadColumns = [
         title: '技术专家单位',
         cellStyle:cellStyle
     }, {
-        field: 'expNameManage',
-        title: '经管专家姓名',
-        cellStyle:cellStyle
-    }, {
-        field: 'expUnitManage',
-        title: '经管专家单位',
-        cellStyle:cellStyle
+        field: 'expType',
+        title: '专家类型',
+        formatter: typeExpFormatter
     }, {
         field: 'reviewCost',
         title: '评审费用(元)',
@@ -200,7 +196,7 @@ function dateFormatter(value, row, index) {
 
 function typeFormatter(value, row, index) {
     var _val = "";
-    switch (value){
+    switch (parseInt(value)){
         case 1:
             _val = "立项评审";
             break
@@ -250,16 +246,14 @@ var columns = [{
         formatter: dateFormatter
     }, {
         field: 'expNameSkill',
-        title: '技术专家姓名'
+        title: '专家姓名'
     }, {
         field: 'expUnitSkill',
-        title: '技术专家单位'
+        title: '专家单位'
     }, {
-        field: 'expNameManage',
-        title: '经管专家姓名'
-    }, {
-        field: 'expUnitManage',
-        title: '经管专家单位'
+        field: 'expType',
+        title: '专家类型',
+        formatter: typeExpFormatter
     }, {
         field: 'reviewCost',
         title: '评审费用(元)'
@@ -275,6 +269,21 @@ function operateFormatter(value, row, index) {
        // '<a onclick="edit(\'' + row.id + '\')" type="button" class="btn btn-xs btn-info" style="margin-right:15px;"><i class=\'ace-icon fa fa-pencil-square-o\'></i></a>',
         '<a onclick="del(\'' + row.id + '\')" type="button" class="btn btn-minier btn-danger" style="margin-right:15px;"><i class=\'ace-icon fa fa-trash-o\'></i></a>'
     ].join('');
+}
+
+function typeExpFormatter(value, row, index) {
+    var _val = "";
+    switch (parseInt(value)){
+        case 1:
+            _val = "技术专家";
+            break
+        case 2:
+            _val = "经管专家";
+            break;
+        default:
+            break;
+    }
+    return _val;
 }
 
 function del(id) {
