@@ -21,7 +21,7 @@ $(function(){
         var userId = $("#userName").val();
         var password = $("#pwd").val();
         $.ajax({
-            url:"/login",
+            url:"/toLogin",
             data:{userid:userId,password:password},
             dataType:"json",
             type:"post",

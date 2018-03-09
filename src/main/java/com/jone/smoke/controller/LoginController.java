@@ -39,14 +39,14 @@ public class LoginController extends BaseController {
     @Autowired
     private SystemProperties systemProperties;
 
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    @RequestMapping(value = "/toLogin", method = RequestMethod.GET)
     public ModelAndView toLogin() {
         ModelAndView mv = new ModelAndView("login");
         mv.addObject("title", systemProperties.getName());
         return mv;
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @RequestMapping(value = "/toLogin", method = RequestMethod.POST)
     public void login(@RequestParam String userid, @RequestParam String password, HttpServletResponse response, HttpSession session) {
         if (StringUtils.isEmpty(userid)) {
             printJson(ResultUtil.error(-1, "用户名不能为空"), response);
