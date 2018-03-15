@@ -304,8 +304,8 @@ public class ExpertController extends BaseController {
             sb.append("评审费用不能为空;");
         if (se.getReviewType() == 0)
             sb.append("评审类别错误;");
-        if (se.getExpNameType() == 0)
-            sb.append("专家类别错误;");
+//        if (se.getExpNameType() == 0)
+//            sb.append("专家类别错误;");
 //        if (se.getExpNameSkill() == null || se.getExpNameManage() == null)
 //            sb.append("姓名不能为空;");
 //        if (se.getExpUnitManage() == null || se.getExpUnitSkill() == null)
