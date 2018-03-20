@@ -89,6 +89,8 @@ public class ProjectController extends BaseController {
             }
             if(!StringUtils.isEmpty(reviewType))
                 sql.append(" and review_type="+reviewType);
+            if(!StringUtils.isEmpty(expType))
+                sql.append(" and expert_type="+expType);
             if(!StringUtils.isEmpty(stTime))
                 sql.append(" and DATE_FORMAT(review_time,'%Y%m%d')>="+stTime.replace("-","")+"");
             //sql.append(" and review_time>=STR_TO_DATE("+stTime+",'%Y-%m-%d')");
