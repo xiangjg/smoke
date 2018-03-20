@@ -199,7 +199,7 @@ var uploadColumns = [
         cellStyle:cellStyle
     }, {
         field: 'expType',
-        title: '专家类型',
+        title: '专家类别',
         formatter: typeExpFormatter
     }, {
         field: 'reviewCost',
@@ -281,7 +281,7 @@ var columns = [{
         title: '专家单位'
     }, {
         field: 'expType',
-        title: '专家类型',
+        title: '专家类别',
         formatter: typeExpFormatter
     }, {
         field: 'reviewCost',

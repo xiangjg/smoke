@@ -26,7 +26,7 @@ public class SmokeExpert implements Serializable {
     @Column(name="expert_unit_skill")
     private String expUnitSkill;
     /**
-     * 专家类型：1：技术专家 2：经管专家
+     * 专家类别：1：技术专家 2：经管专家
      */
     @Column(name="expert_type")
     private Integer expNameType;
