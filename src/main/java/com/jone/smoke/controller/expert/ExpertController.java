@@ -167,7 +167,7 @@ public class ExpertController extends BaseController {
                 //sql.append(" and review_time>=STR_TO_DATE("+stTime+",'%Y-%m-%d')");
             if(!StringUtils.isEmpty(eTime))
                 sql.append(" and DATE_FORMAT(review_time,'%Y%m%d')<="+eTime.replace("-","")+"");
-            sql.append(" order by review_time,project_name,expert_unit_skill,expert_name_skill desc");
+            sql.append(" order by review_time desc,project_name,expert_unit_skill,expert_name_skill");
             List<Map<String,Object>> list = dao.findBySqlToMap(sql.toString());
             printJson(ResultUtil.success(list),response);
         }catch (Exception e){
