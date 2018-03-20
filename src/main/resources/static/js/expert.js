@@ -115,31 +115,58 @@ function save() {
         layer.msg('没有需要保存的数据');
         return;
     }else{
+        //验证是否存在后台校验错误数据
         for(var i=0;i<data.length;i++){
             if(data[i].remark&&data[i].remark.length>0){
                 layer.msg("请根据备注错误更正后重新上传提交");
                 return;
             }
         }
-        var index = layer.load(1);
-        $.ajax({
-            url: '/expert/save',
-            dataType: "json",
-            type: "post",
-            contentType: "application/json",
-            data: JSON.stringify(data),
-            success:function (_data) {
-                if(_data&&_data.code==0){
-                    layer.close(index);
-                    layer.msg(_data.message);
-                    $("#dataTable").bootstrapTable('destroy');
-                }else{
-                    layer.msg(_data.message);
+        //验证重复数据
+        var isPass = true;
+        for(var i=0;i<data.length;i++){
+            for(var j=0;j<data.length;j++){
+                if(i!=j&&data[i].proName == data[j].proName&&data[i].reviewTime == data[j].reviewTime&&data[i].expNameSkill == data[j].expNameSkill
+                    &&data[i].expUnitSkill == data[j].expUnitSkill&&data[i].reviewCost == data[j].reviewCost&&data[i].expType == data[j].expType){
+                    isPass = false;
+                    var num1 = i+1,num2 = j+1;
+                    layer.msg('第【'+num1+'】条数据与第【'+num2+'】条数据重复，请问是否继续保存该数据?', {
+                        time: 0 //不自动关闭
+                        ,btn: ['是', '否']
+                        ,yes: function(index){
+                            layer.close(index);
+                            saveData(data);
+                        },btn2:function (index) {
+                            layer.close(index);
+                            return;
+                        }
+                    });
                 }
             }
-        });
-    }
+        }
 
+        if(isPass)
+            saveData(data);
+    }
+}
+var saveData = function (data) {
+    var index = layer.load(1);
+    $.ajax({
+        url: '/expert/save',
+        dataType: "json",
+        type: "post",
+        contentType: "application/json",
+        data: JSON.stringify(data),
+        success:function (_data) {
+            if(_data&&_data.code==0){
+                layer.close(index);
+                layer.msg(_data.message);
+                $("#dataTable").bootstrapTable('destroy');
+            }else{
+                layer.msg(_data.message);
+            }
+        }
+    });
 }
 
 var uploadColumns = [

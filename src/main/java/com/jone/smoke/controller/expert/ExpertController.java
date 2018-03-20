@@ -167,7 +167,7 @@ public class ExpertController extends BaseController {
                 //sql.append(" and review_time>=STR_TO_DATE("+stTime+",'%Y-%m-%d')");
             if(!StringUtils.isEmpty(eTime))
                 sql.append(" and DATE_FORMAT(review_time,'%Y%m%d')<="+eTime.replace("-","")+"");
-            sql.append(" order by expert_unit_skill,review_time desc");
+            sql.append(" order by review_time,project_name,expert_unit_skill,expert_name_skill desc");
             List<Map<String,Object>> list = dao.findBySqlToMap(sql.toString());
             printJson(ResultUtil.success(list),response);
         }catch (Exception e){
@@ -191,7 +191,7 @@ public class ExpertController extends BaseController {
         String reviewType = request.getParameter("reviewType");
         String stTime = request.getParameter("stTime");
         String eTime = request.getParameter("eTime");
-        StringBuffer sql = new StringBuffer("select expert_unit_skill as unit,expert_name_skill as name,expert_type as type,count(1) as num,sum(review_cost) as cost from s_expert where 1=1 ");
+        StringBuffer sql = new StringBuffer("select expert_unit_skill as unit,expert_name_skill as name,count(1) as num,sum(review_cost) as cost from s_expert where 1=1 ");
         try {
             if(!StringUtils.isEmpty(unitName)){
                 sql.append(" and expert_unit_skill like '%"+unitName+"%' ");
@@ -208,7 +208,7 @@ public class ExpertController extends BaseController {
             //sql.append(" and review_time>=STR_TO_DATE("+stTime+",'%Y-%m-%d')");
             if(!StringUtils.isEmpty(eTime))
                 sql.append(" and DATE_FORMAT(review_time,'%Y%m%d')<="+eTime.replace("-","")+"");
-            sql.append(" group by expert_unit_skill,expert_name_skill,expert_type");
+            sql.append(" group by expert_unit_skill,expert_name_skill order by expert_unit_skill,expert_name_skill");
             List<Map<String,Object>> list = dao.findBySqlToMap(sql.toString());
             printJson(ResultUtil.success(list),response);
         }catch (Exception e){
@@ -225,7 +225,7 @@ public class ExpertController extends BaseController {
         String reviewType = request.getParameter("reviewType");
         String stTime = request.getParameter("stTime");
         String eTime = request.getParameter("eTime");
-        StringBuffer sql = new StringBuffer("select expert_unit_skill as unit,expert_name_skill as name,case when expert_type=1 then '技术专家' when expert_type=2 then '经管专家' else '' end as type,count(1) as num,sum(review_cost) as cost from s_expert where 1=1 ");
+        StringBuffer sql = new StringBuffer("select expert_unit_skill as unit,expert_name_skill as name,count(1) as num,sum(review_cost) as cost from s_expert where 1=1 ");
         try {
             if(!StringUtils.isEmpty(unitName)){
                 sql.append(" and expert_unit_skill like '%"+unitName+"%' ");
@@ -242,7 +242,7 @@ public class ExpertController extends BaseController {
             //sql.append(" and review_time>=STR_TO_DATE("+stTime+",'%Y-%m-%d')");
             if(!StringUtils.isEmpty(eTime))
                 sql.append(" and DATE_FORMAT(review_time,'%Y%m%d')<="+eTime.replace("-","")+"");
-            sql.append(" group by expert_unit_skill,expert_name_skill,expert_type");
+            sql.append(" group by expert_unit_skill,expert_name_skill order by expert_unit_skill,expert_name_skill");
             List<Map<String,Object>> list = dao.findBySqlToMap(sql.toString());
             if(list!=null&&list.size()>0){
                 JSONArray ja = new JSONArray();
@@ -257,7 +257,6 @@ public class ExpertController extends BaseController {
                 headMap.put("no","序号");
                 headMap.put("unit","专家单位");
                 headMap.put("name","专家姓名");
-                headMap.put("type","专家类别");
                 headMap.put("num","评审次数");
                 headMap.put("cost","评审费用(元)");
                 ExcelExportUtil.downloadExcelFile("科技项目评审专家工作量及评审费用统计表",headMap,ja,response);

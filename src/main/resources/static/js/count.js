@@ -107,10 +107,6 @@ var columns = [
         field: 'name',
         title: '专家姓名'
     }, {
-        field: 'type',
-        title: '专家类别',
-        formatter: typeExpFormatter
-    }, {
         field: 'num',
         title: '评审次数'
     }, {

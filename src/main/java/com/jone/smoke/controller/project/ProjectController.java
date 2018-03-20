@@ -47,7 +47,7 @@ public class ProjectController extends BaseController {
         String reviewType = request.getParameter("reviewType");
         String stTime = request.getParameter("stTime");
         String eTime = request.getParameter("eTime");
-        StringBuffer sql = new StringBuffer("select project_name as projectName,count(distinct(expert_name_skill)) as pNum,count(1) as num,sum(review_cost) as cost from s_expert where 1=1 ");
+        StringBuffer sql = new StringBuffer("select project_name as projectName,count(distinct(expert_name_skill)) as pNum,sum(review_cost) as cost from s_expert where 1=1 ");
         try {
             if(!StringUtils.isEmpty(unitName)){
                 sql.append(" and expert_unit_skill like '%"+unitName+"%' ");
@@ -57,8 +57,6 @@ public class ProjectController extends BaseController {
             }
             if(!StringUtils.isEmpty(reviewType))
                 sql.append(" and review_type="+reviewType);
-            if(!StringUtils.isEmpty(expType))
-                sql.append(" and expert_type="+expType);
             if(!StringUtils.isEmpty(stTime))
                 sql.append(" and DATE_FORMAT(review_time,'%Y%m%d')>="+stTime.replace("-","")+"");
             //sql.append(" and review_time>=STR_TO_DATE("+stTime+",'%Y-%m-%d')");
@@ -81,7 +79,7 @@ public class ProjectController extends BaseController {
         String reviewType = request.getParameter("reviewType");
         String stTime = request.getParameter("stTime");
         String eTime = request.getParameter("eTime");
-        StringBuffer sql = new StringBuffer("select project_name as projectName,count(distinct(expert_name_skill)) as pNum,count(1) as num,sum(review_cost) as cost from s_expert where 1=1 ");
+        StringBuffer sql = new StringBuffer("select project_name as projectName,count(distinct(expert_name_skill)) as pNum,sum(review_cost) as cost from s_expert where 1=1 ");
         try {
             if(!StringUtils.isEmpty(unitName)){
                 sql.append(" and expert_unit_skill like '%"+unitName+"%' ");
@@ -91,8 +89,6 @@ public class ProjectController extends BaseController {
             }
             if(!StringUtils.isEmpty(reviewType))
                 sql.append(" and review_type="+reviewType);
-            if(!StringUtils.isEmpty(expType))
-                sql.append(" and expert_type="+expType);
             if(!StringUtils.isEmpty(stTime))
                 sql.append(" and DATE_FORMAT(review_time,'%Y%m%d')>="+stTime.replace("-","")+"");
             //sql.append(" and review_time>=STR_TO_DATE("+stTime+",'%Y-%m-%d')");
@@ -111,11 +107,10 @@ public class ProjectController extends BaseController {
                 }
                 Map<String,String> headMap = new LinkedHashMap<>();
                 headMap.put("no","序号");
-                headMap.put("projectName","单位名称");
+                headMap.put("projectName","项目名称");
                 headMap.put("pNum","专家人数");
-                headMap.put("num","评审次数");
                 headMap.put("cost","评审费用(元)");
-                ExcelExportUtil.downloadExcelFile("科技项目单位评审费用统计表",headMap,ja,response);
+                ExcelExportUtil.downloadExcelFile("科技项目评审统计表",headMap,ja,response);
             }else{
                 logger.error("可导出数据为空");
             }

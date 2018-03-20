@@ -102,13 +102,10 @@ var columns = [
         formatter: noFormatter
     }, {
         field: 'projectName',
-        title: '单位名称'
+        title: '项目名称'
     }, {
         field: 'pNum',
         title: '专家人数'
-    }, {
-        field: 'num',
-        title: '评审次数'
     }, {
         field: 'cost',
         title: '评审费用(元)'
