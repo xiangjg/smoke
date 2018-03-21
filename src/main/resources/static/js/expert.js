@@ -10,27 +10,27 @@ $(function () {
 var queryData = function () {
     var index = layer.load(1);
     var param = {};
-    if($("#proName").val())
+    if ($("#proName").val())
         param.proName = $("#proName").val();
-    if($("#unitName").val())
+    if ($("#unitName").val())
         param.unitName = $("#unitName").val();
-    if($("#expName").val())
+    if ($("#expName").val())
         param.expName = $("#expName").val();
-    if($("#reviewType").val())
+    if ($("#reviewType").val())
         param.reviewType = $("#reviewType").val();
-    if($("#expType").val())
+    if ($("#expType").val())
         param.expType = $("#expType").val();
-    if($("#start_time").val())
+    if ($("#start_time").val())
         param.stTime = $("#start_time").val();
-    if($("#end_time").val())
+    if ($("#end_time").val())
         param.eTime = $("#end_time").val();
     $.ajax({
         url: '/expert/query',
         dataType: "json",
         type: "post",
         data: param,
-        success:function (_data) {
-            if(_data&&_data.code==0){
+        success: function (_data) {
+            if (_data && _data.code == 0) {
                 layer.close(index);
                 $("#expert_table").bootstrapTable('destroy');
                 $('#expert_table').bootstrapTable({
@@ -38,9 +38,9 @@ var queryData = function () {
                     pageSize: 10,
                     pageList: [10, 25, 50, 100],
                     pagination: true,
-                    data:_data.data
+                    data: _data.data
                 });
-            }else{
+            } else {
                 layer.msg(_data.message);
             }
         }
@@ -91,7 +91,7 @@ var myupload = function () {
                             pageSize: 10,
                             pageList: [10, 25, 50, 100],
                             pagination: true,
-                            data:data.data
+                            data: data.data
                         });
                     } else {
                         layer.msg(data.message);
@@ -110,33 +110,33 @@ var myupload = function () {
 }
 
 function save() {
-    var data = 	$('#dataTable').bootstrapTable('getData');
-    if(!data||data.length==0){
+    var data = $('#dataTable').bootstrapTable('getData');
+    if (!data || data.length == 0) {
         layer.msg('没有需要保存的数据');
         return;
-    }else{
+    } else {
+        var isPass = true;
         //验证是否存在后台校验错误数据
-        for(var i=0;i<data.length;i++){
-            if(data[i].remark&&data[i].remark.length>0){
+        for (var i = 0; i < data.length; i++) {
+            if (data[i].remark && data[i].remark.length > 0) {
                 layer.msg("请根据备注错误更正后重新上传提交");
                 return;
             }
         }
         //验证重复数据
-        var isPass = true;
-        for(var i=0;i<data.length;i++){
-            for(var j=0;j<data.length;j++){
-                if(i!=j&&data[i].proName == data[j].proName&&data[i].reviewTime == data[j].reviewTime&&data[i].expNameSkill == data[j].expNameSkill
-                    &&data[i].expUnitSkill == data[j].expUnitSkill&&data[i].reviewCost == data[j].reviewCost&&data[i].expType == data[j].expType){
+        for (var i = 0; i < data.length; i++) {
+            for (var j = 0; j < data.length; j++) {
+                if (i != j && data[i].proName == data[j].proName && data[i].reviewTime == data[j].reviewTime && data[i].expNameSkill == data[j].expNameSkill
+                    && data[i].expUnitSkill == data[j].expUnitSkill && data[i].reviewCost == data[j].reviewCost && data[i].expType == data[j].expType) {
                     isPass = false;
-                    var num1 = i+1,num2 = j+1;
-                    layer.msg('第【'+num1+'】条数据与第【'+num2+'】条数据重复，请问是否继续保存该数据?', {
+                    var num1 = i + 1, num2 = j + 1;
+                    layer.msg('第【' + num1 + '】条数据与第【' + num2 + '】条数据重复，请问是否继续保存该数据?', {
                         time: 0 //不自动关闭
-                        ,btn: ['是', '否']
-                        ,yes: function(index){
+                        , btn: ['是', '否']
+                        , yes: function (index) {
                             layer.close(index);
                             saveData(data);
-                        },btn2:function (index) {
+                        }, btn2: function (index) {
                             layer.close(index);
                             return;
                         }
@@ -145,10 +145,11 @@ function save() {
             }
         }
 
-        if(isPass)
+        if (isPass)
             saveData(data);
     }
 }
+
 var saveData = function (data) {
     var index = layer.load(1);
     $.ajax({
@@ -157,12 +158,12 @@ var saveData = function (data) {
         type: "post",
         contentType: "application/json",
         data: JSON.stringify(data),
-        success:function (_data) {
-            if(_data&&_data.code==0){
+        success: function (_data) {
+            if (_data && _data.code == 0) {
                 layer.close(index);
                 layer.msg(_data.message);
                 $("#dataTable").bootstrapTable('destroy');
-            }else{
+            } else {
                 layer.msg(_data.message);
             }
         }
@@ -174,41 +175,42 @@ var uploadColumns = [
         field: 'no',
         title: '序号',
         formatter: noFormatter,
-        cellStyle:cellStyle
+        cellStyle: cellStyle
     }, {
         field: 'proName',
         title: '项目名称',
-        cellStyle:cellStyle
+        cellStyle: cellStyle
     }, {
         field: 'reviewType',
         title: '评审类别',
         formatter: typeFormatter,
-        cellStyle:cellStyle
+        cellStyle: cellStyle
     }, {
         field: 'reviewTime',
         title: '评审时间',
         formatter: dateFormatter,
-        cellStyle:cellStyle
+        cellStyle: cellStyle
     }, {
         field: 'expNameSkill',
         title: '技术专家姓名',
-        cellStyle:cellStyle
+        cellStyle: cellStyle
     }, {
         field: 'expUnitSkill',
         title: '技术专家单位',
-        cellStyle:cellStyle
+        cellStyle: cellStyle
     }, {
         field: 'expType',
         title: '专家类别',
-        formatter: typeExpFormatter
+        formatter: typeExpFormatter,
+        cellStyle: cellStyle
     }, {
         field: 'reviewCost',
         title: '评审费用(元)',
-        cellStyle:cellStyle
+        cellStyle: cellStyle
     }, {
         field: 'remark',
         title: '备注',
-        cellStyle:cellStyle
+        cellStyle: cellStyle
     }
 ];
 
@@ -217,7 +219,7 @@ function noFormatter(value, row, index) {
 }
 
 function dateFormatter(value, row, index) {
-    if(value)
+    if (value)
         return moment(value).format('YYYY-MM-DD');
     else
         return '-';
@@ -225,7 +227,7 @@ function dateFormatter(value, row, index) {
 
 function typeFormatter(value, row, index) {
     var _val = "";
-    switch (parseInt(value)){
+    switch (parseInt(value)) {
         case 1:
             _val = "立项评审";
             break
@@ -248,61 +250,74 @@ function typeFormatter(value, row, index) {
 }
 
 function cellStyle(value, row, index) {
-    if(row.remark&&row.remark.length>0)
-        return { css: {"background-color": "rgba(255, 100, 48, 0.54)"}};
+    if (row.remark && row.remark.length > 0)
+        return {css: {"background-color": "rgba(255, 100, 48, 0.54)"}};
     else
-        return { css: {"background-color": "rgba(255, 255, 255, 0.33)"}};
+        return {css: {"background-color": "rgba(255, 255, 255, 0.33)"}};
 }
 
 
 var columns = [{
-        field: 'checkbox',
-        checkbox: true
-    },{
-        field: 'no',
-        title: '序号',
-        formatter: noFormatter
-    }, {
-        field: 'proName',
-        title: '项目名称'
-    }, {
-        field: 'reviewType',
-        title: '评审类别',
-        formatter: typeFormatter
-    }, {
-        field: 'reviewTime',
-        title: '评审时间',
-        formatter: dateFormatter
-    }, {
-        field: 'expNameSkill',
-        title: '专家姓名'
-    }, {
-        field: 'expUnitSkill',
-        title: '专家单位'
-    }, {
-        field: 'expType',
-        title: '专家类别',
-        formatter: typeExpFormatter
-    }, {
-        field: 'reviewCost',
-        title: '评审费用(元)'
-    }, {
-        field: 'operate',
-        title: '操作',
-        formatter: operateFormatter
-    }
+    field: 'checkbox',
+    checkbox: true
+}, {
+    field: 'no',
+    title: '序号',
+    formatter: noFormatter,
+    cellStyle: cellStyle
+}, {
+    field: 'proName',
+    title: '项目名称',
+    cellStyle: cellStyle
+}, {
+    field: 'reviewType',
+    title: '评审类别',
+    formatter: typeFormatter,
+    cellStyle: cellStyle
+}, {
+    field: 'reviewTime',
+    title: '评审时间',
+    formatter: dateFormatter,
+    cellStyle: cellStyle
+}, {
+    field: 'expNameSkill',
+    title: '专家姓名',
+    cellStyle: cellStyle
+}, {
+    field: 'expUnitSkill',
+    title: '专家单位',
+    cellStyle: cellStyle
+}, {
+    field: 'expType',
+    title: '专家类别',
+    formatter: typeExpFormatter,
+    cellStyle: cellStyle
+}, {
+    field: 'reviewCost',
+    title: '评审费用(元)',
+    cellStyle: cellStyle
+}, {
+    field: 'operate',
+    title: '操作',
+    formatter: operateFormatter,
+    cellStyle: cellStyle
+}, {
+    field: 'remark',
+    title: '备注',
+    cellStyle: cellStyle
+}
 ];
 
 function operateFormatter(value, row, index) {
     return [
-       // '<a onclick="edit(\'' + row.id + '\')" type="button" class="btn btn-xs btn-info" style="margin-right:15px;"><i class=\'ace-icon fa fa-pencil-square-o\'></i></a>',
+        // '<a onclick="edit(\'' + row.id + '\')" type="button" class="btn btn-xs btn-info" style="margin-right:15px;"><i class=\'ace-icon fa fa-pencil-square-o\'></i></a>',
         '<a onclick="del(\'' + row.id + '\')" type="button" class="btn btn-minier btn-danger" style="margin-right:15px;"><i class=\'ace-icon fa fa-trash-o\'></i></a>'
     ].join('');
 }
 
 function typeExpFormatter(value, row, index) {
     var _val = "";
-    switch (parseInt(value)){
+    switch (parseInt(value)) {
         case 1:
             _val = "技术专家";
             break

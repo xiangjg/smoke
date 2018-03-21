@@ -24,10 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.FileInputStream;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @EnableAutoConfiguration
@@ -169,6 +166,7 @@ public class ExpertController extends BaseController {
                 sql.append(" and DATE_FORMAT(review_time,'%Y%m%d')<="+eTime.replace("-","")+"");
             sql.append(" order by review_time desc,project_name,expert_unit_skill,expert_name_skill");
             List<Map<String,Object>> list = dao.findBySqlToMap(sql.toString());
+            list = checkSmokeExpert2(list);
             printJson(ResultUtil.success(list),response);
         }catch (Exception e){
             e.printStackTrace();
@@ -311,6 +309,37 @@ public class ExpertController extends BaseController {
 //            sb.append("单位不能为空;");
         se.setRemark(sb.toString());
         return se;
+    }
+
+    private List<Map<String,Object>> checkSmokeExpert2(List<Map<String,Object>> data) {
+        for (Map<String,Object> se:data
+             ) {
+            StringBuffer sb = new StringBuffer("");
+            StringBuffer sql = new StringBuffer("select * from s_expert where id<>"+Integer.parseInt(se.get("id").toString())+" ");
+            if(!StringUtils.isEmpty(se.get("expUnitSkill").toString())){
+                sql.append(" and expert_unit_skill = '"+se.get("expUnitSkill").toString()+"' ");
+            }
+            if(!StringUtils.isEmpty(se.get("expNameSkill").toString())){
+                sql.append(" and expert_name_skill = '"+se.get("expNameSkill").toString()+"' ");
+            }
+            if(!StringUtils.isEmpty(se.get("proName").toString())){
+                sql.append(" and project_name = '"+se.get("proName").toString()+"' ");
+            }
+            if(se.get("reviewType")!=null)
+                sql.append(" and review_type="+Integer.parseInt(se.get("reviewType").toString()));
+            if(se.get("expType")!=null)
+                sql.append(" and expert_type="+Integer.parseInt(se.get("expType").toString()));
+            if(se.get("reviewTime")!=null)
+                sql.append(" and DATE_FORMAT(review_time,'%Y%m%d')="+sdf.format((Date)se.get("reviewTime")).replace("-","")+"");
+            if(se.get("reviewCost")!=null)
+                sql.append(" and review_cost="+(BigDecimal)se.get("reviewCost"));
+            List<Map<String,Object>> list = dao.findBySqlToMap(sql.toString());
+            if(list!=null&&list.size()>0)
+                sb.append("存在重复数据;");
+            se.put("remark",sb.toString());
+        }
+
+        return data;
     }
 
     private Integer decodeType(String str) {
