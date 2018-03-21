@@ -342,13 +342,13 @@ public class ExpertController extends BaseController {
              ) {
             StringBuffer sb = new StringBuffer("");
             StringBuffer sql = new StringBuffer("select * from s_expert where id<>"+Integer.parseInt(se.get("id").toString())+" ");
-            if(!StringUtils.isEmpty(se.get("expUnitSkill").toString())){
+            if(se.get("expUnitSkill")!=null&&!StringUtils.isEmpty(se.get("expUnitSkill").toString())){
                 sql.append(" and expert_unit_skill = '"+se.get("expUnitSkill").toString()+"' ");
             }
-            if(!StringUtils.isEmpty(se.get("expNameSkill").toString())){
+            if(se.get("expNameSkill")!=null&&!StringUtils.isEmpty(se.get("expNameSkill").toString())){
                 sql.append(" and expert_name_skill = '"+se.get("expNameSkill").toString()+"' ");
             }
-            if(!StringUtils.isEmpty(se.get("proName").toString())){
+            if(se.get("proName")!=null&&!StringUtils.isEmpty(se.get("proName").toString())){
                 sql.append(" and project_name = '"+se.get("proName").toString()+"' ");
             }
             if(se.get("reviewType")!=null)

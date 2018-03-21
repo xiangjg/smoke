@@ -340,9 +340,19 @@ function edit(id) {
             if (_data && _data.code == 0) {
                 var smoke = _data.data;
                 $("#expert_edit_view").find("input[name='proName']").val(smoke.proName);
-                $("#expert_edit_view").find("input[name='expUnitSkill']").val(smoke.expUnitSkill);
+                //$("#expert_edit_view").find("input[name='expUnitSkill']").val(smoke.expUnitSkill);
                 $("#expert_edit_view").find("input[name='expNameSkill']").val(smoke.expNameSkill);
                 $("#expert_edit_view").find("input[name='reviewCost']").val(smoke.reviewCost);
+                var $expUnitSkill = $($("#expert_edit_view").find("select[name='expUnitSkill']")[0]);
+                $expUnitSkill.empty();
+                var unitNames = ['公司本部', '技术中心', '营销中心', '原料供应中心', '贵阳卷烟厂', '遵义卷烟厂', '毕节卷烟厂', '贵定卷烟厂', '铜仁卷烟厂', '兴义烟叶储运站'];
+                $expUnitSkill.append("<option value=''>请选择单位名称</option>");
+                unitNames.forEach(function (t) {
+                    if (t == smoke.expUnitSkill)
+                        $expUnitSkill.append("<option value='" + t + "' selected ='selected'>" + t + "</option>");
+                    else
+                        $expUnitSkill.append("<option value='" + t + "'>" + t + "</option>");
+                })
                 var $reviewType = $($("#expert_edit_view").find("select[name='reviewType']")[0]);
                 $reviewType.empty();
                 if (smoke.reviewType == 1) {
@@ -386,10 +396,11 @@ function edit(id) {
                     var _type = $(this).attr('name');
                     if (_type == 'save') {
                         smoke.proName = $("#expert_edit_view").find("input[name='proName']").val();
-                        smoke.expUnitSkill = $("#expert_edit_view").find("input[name='expUnitSkill']").val();
+                        //smoke.expUnitSkill = $("#expert_edit_view").find("input[name='expUnitSkill']").val();
                         smoke.expNameSkill = $("#expert_edit_view").find("input[name='expNameSkill']").val();
                         smoke.reviewCost = $("#expert_edit_view").find("input[name='reviewCost']").val();
                         smoke.reviewType = $("#expert_edit_view").find("select[name='reviewType']").val();
+                        smoke.expUnitSkill = $("#expert_edit_view").find("select[name='expUnitSkill']").val();
                         $.ajax({
                             url: "/expert/update",
                             dataType: "json",
