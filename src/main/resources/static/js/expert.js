@@ -310,7 +310,7 @@ var columns = [{
 
 function operateFormatter(value, row, index) {
     return [
-        // '<a onclick="edit(\'' + row.id + '\')" type="button" class="btn btn-xs btn-info" style="margin-right:15px;"><i class=\'ace-icon fa fa-pencil-square-o\'></i></a>',
+        '<a onclick="edit(\'' + row.id + '\')" type="button" class="btn btn-xs btn-info" style="margin-right:15px;"><i class=\'ace-icon fa fa-pencil-square-o\'></i></a>',
         '<a onclick="del(\'' + row.id + '\')" type="button" class="btn btn-minier btn-danger" style="margin-right:15px;"><i class=\'ace-icon fa fa-trash-o\'></i></a>'
     ].join('');
 }
@@ -328,6 +328,91 @@ function typeExpFormatter(value, row, index) {
             break;
     }
     return _val;
+}
+
+function edit(id) {
+    $.ajax({
+        url: "/expert/getById",
+        dataType: "json",
+        type: "post",
+        data: {id: id},
+        success: function (_data) {
+            if (_data && _data.code == 0) {
+                var smoke = _data.data;
+                $("#expert_edit_view").find("input[name='proName']").val(smoke.proName);
+                $("#expert_edit_view").find("input[name='expUnitSkill']").val(smoke.expUnitSkill);
+                $("#expert_edit_view").find("input[name='expNameSkill']").val(smoke.expNameSkill);
+                $("#expert_edit_view").find("input[name='reviewCost']").val(smoke.reviewCost);
+                var $reviewType = $($("#expert_edit_view").find("select[name='reviewType']")[0]);
+                $reviewType.empty();
+                if (smoke.reviewType == 1) {
+                    $reviewType.append("<option value='1' selected ='selected'>立项评审</option>");
+                    $reviewType.append("<option value='2'>检查评价</option>");
+                    $reviewType.append("<option value='3'>变更评审</option>");
+                    $reviewType.append("<option value='4'>撤销评审</option>");
+                    $reviewType.append("<option value='5'>结题评审</option>");
+                } else if (smoke.reviewType == 2) {
+                    $reviewType.append("<option value='1'>立项评审</option>");
+                    $reviewType.append("<option value='2' selected ='selected'>检查评价</option>");
+                    $reviewType.append("<option value='3'>变更评审</option>");
+                    $reviewType.append("<option value='4'>撤销评审</option>");
+                    $reviewType.append("<option value='5'>结题评审</option>");
+                } else if (smoke.reviewType == 3) {
+                    $reviewType.append("<option value='1'>立项评审</option>");
+                    $reviewType.append("<option value='2'>检查评价</option>");
+                    $reviewType.append("<option value='3' selected ='selected'>变更评审</option>");
+                    $reviewType.append("<option value='4'>撤销评审</option>");
+                    $reviewType.append("<option value='5'>结题评审</option>");
+                } else if (smoke.reviewType == 4) {
+                    $reviewType.append("<option value='1'>立项评审</option>");
+                    $reviewType.append("<option value='2'>检查评价</option>");
+                    $reviewType.append("<option value='3'>变更评审</option>");
+                    $reviewType.append("<option value='4' selected ='selected'>撤销评审</option>");
+                    $reviewType.append("<option value='5'>结题评审</option>");
+                } else if (smoke.reviewType == 5) {
+                    $reviewType.append("<option value='1'>立项评审</option>");
+                    $reviewType.append("<option value='2'>检查评价</option>");
+                    $reviewType.append("<option value='3'>变更评审</option>");
+                    $reviewType.append("<option value='4'>撤销评审</option>");
+                    $reviewType.append("<option value='5' selected ='selected'>结题评审</option>");
+                }
+                var _layer = layer.open({
+                    title: "修改信息",
+                    type: 1,
+                    area: ['400px', '500px'],
+                    content: $("#expert_edit_view")
+                });
+                $("#expert_edit_view").find("a").unbind('click').bind('click', function () {
+                    var _type = $(this).attr('name');
+                    if (_type == 'save') {
+                        smoke.proName = $("#expert_edit_view").find("input[name='proName']").val();
+                        smoke.expUnitSkill = $("#expert_edit_view").find("input[name='expUnitSkill']").val();
+                        smoke.expNameSkill = $("#expert_edit_view").find("input[name='expNameSkill']").val();
+                        smoke.reviewCost = $("#expert_edit_view").find("input[name='reviewCost']").val();
+                        smoke.reviewType = $("#expert_edit_view").find("select[name='reviewType']").val();
+                        $.ajax({
+                            url: "/expert/update",
+                            dataType: "json",
+                            contentType: "application/json",
+                            type: "post",
+                            data: JSON.stringify(smoke),
+                            success: function (_data) {
+                                if (_data && _data.code == 0) {
+                                    layer.msg("保存成功");
+                                    queryData();
+                                    layer.close(_layer);
+                                } else {
+                                    layer.msg("保存失败," + _data.message);
+                                }
+                            }
+                        });
+                    } else if (_type == 'cancel') {
+                        layer.close(_layer);
+                    }
+                })
+            }
+        }
+    });
 }
 
 function del(id) {

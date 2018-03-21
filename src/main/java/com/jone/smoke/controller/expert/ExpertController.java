@@ -8,6 +8,7 @@ import com.jone.smoke.dao.custom.Restrictions;
 import com.jone.smoke.dao.expert.SmokeExpertRepository;
 import com.jone.smoke.entity.common.ResultUtil;
 import com.jone.smoke.entity.expert.SmokeExpert;
+import com.jone.smoke.entity.system.User;
 import com.jone.smoke.util.ExcelExportUtil;
 import com.jone.smoke.util.ExcelUtil;
 import org.apache.commons.lang.StringUtils;
@@ -295,6 +296,31 @@ public class ExpertController extends BaseController {
         }
     }
 
+    @RequestMapping(value = "/getById")
+    public void getUserById(@RequestParam String id, HttpServletResponse response){
+        try {
+            Map<String,Object> map = new HashMap<>();
+            SmokeExpert smokeExpert = smokeExpertRepository.findOne(Integer.valueOf(id));
+            if(smokeExpert!=null){
+                printJson(ResultUtil.success(smokeExpert),response);
+            }else{
+                printJson(ResultUtil.error(-1,"获取数据为空"),response);
+            }
+        }catch (Exception e){
+            logger.error("{}",e);
+            printJson(ResultUtil.error(-1,e.getMessage()),response);
+        }
+    }
+    @RequestMapping(value = "/update")
+    public void update(@RequestBody SmokeExpert smoke, HttpServletResponse response){
+        try {
+            smokeExpertRepository.updateSmokeExpertById(smoke.getProName(),smoke.getExpUnitSkill(),smoke.getExpNameSkill(),smoke.getReviewType(),smoke.getReviewCost(),smoke.getId());
+            printJson(ResultUtil.success(),response);
+        }catch (Exception e){
+            logger.error("{}",e);
+            printJson(ResultUtil.error(-1,e.getMessage()),response);
+        }
+    }
     private SmokeExpert checkSmokeExpert(SmokeExpert se) {
         StringBuffer sb = new StringBuffer("");
         if (se.getReviewCost() == null)
