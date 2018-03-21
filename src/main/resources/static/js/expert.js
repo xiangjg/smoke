@@ -310,8 +310,8 @@ var columns = [{
 
 function operateFormatter(value, row, index) {
     return [
-        '<a onclick="edit(\'' + row.id + '\')" type="button" class="btn btn-minier btn-info" style="margin-right:15px;"><i class=\'ace-icon fa fa-pencil-square-o\'></i></a>',
-        '<a onclick="del(\'' + row.id + '\')" type="button" class="btn btn-minier btn-danger" style="margin-right:15px;"><i class=\'ace-icon fa fa-trash-o\'></i></a>'
+        '<a onclick="edit(\'' + row.id + '\')" type="button" class="btn btn-minier btn-info" style="margin-right:15px;" title="修改数据"><i class=\'ace-icon fa fa-pencil-square-o\'></i></a>',
+        '<a onclick="del(\'' + row.id + '\')" type="button" class="btn btn-minier btn-danger" style="margin-right:15px;" title="删除数据"><i class=\'ace-icon fa fa-trash-o\'></i></a>'
     ].join('');
 }
 
