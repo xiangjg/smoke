@@ -352,40 +352,16 @@ function edit(id) {
                         $expUnitSkill.append("<option value='" + t + "' selected ='selected'>" + t + "</option>");
                     else
                         $expUnitSkill.append("<option value='" + t + "'>" + t + "</option>");
-                })
+                });
                 var $reviewType = $($("#expert_edit_view").find("select[name='reviewType']")[0]);
                 $reviewType.empty();
-                if (smoke.reviewType == 1) {
-                    $reviewType.append("<option value='1' selected ='selected'>立项评审</option>");
-                    $reviewType.append("<option value='2'>检查评价</option>");
-                    $reviewType.append("<option value='3'>变更评审</option>");
-                    $reviewType.append("<option value='4'>撤销评审</option>");
-                    $reviewType.append("<option value='5'>结题评审</option>");
-                } else if (smoke.reviewType == 2) {
-                    $reviewType.append("<option value='1'>立项评审</option>");
-                    $reviewType.append("<option value='2' selected ='selected'>检查评价</option>");
-                    $reviewType.append("<option value='3'>变更评审</option>");
-                    $reviewType.append("<option value='4'>撤销评审</option>");
-                    $reviewType.append("<option value='5'>结题评审</option>");
-                } else if (smoke.reviewType == 3) {
-                    $reviewType.append("<option value='1'>立项评审</option>");
-                    $reviewType.append("<option value='2'>检查评价</option>");
-                    $reviewType.append("<option value='3' selected ='selected'>变更评审</option>");
-                    $reviewType.append("<option value='4'>撤销评审</option>");
-                    $reviewType.append("<option value='5'>结题评审</option>");
-                } else if (smoke.reviewType == 4) {
-                    $reviewType.append("<option value='1'>立项评审</option>");
-                    $reviewType.append("<option value='2'>检查评价</option>");
-                    $reviewType.append("<option value='3'>变更评审</option>");
-                    $reviewType.append("<option value='4' selected ='selected'>撤销评审</option>");
-                    $reviewType.append("<option value='5'>结题评审</option>");
-                } else if (smoke.reviewType == 5) {
-                    $reviewType.append("<option value='1'>立项评审</option>");
-                    $reviewType.append("<option value='2'>检查评价</option>");
-                    $reviewType.append("<option value='3'>变更评审</option>");
-                    $reviewType.append("<option value='4'>撤销评审</option>");
-                    $reviewType.append("<option value='5' selected ='selected'>结题评审</option>");
-                }
+                var reviewTypes = [{value:1,name:'立项评审'},{value:2,name:'检查评价'},{value:3,name:'变更评审'},{value:4,name:'撤销评审'},{value:5,name:'结题评审'}]
+                reviewTypes.forEach(function (t) {
+                    if (t.value == smoke.reviewType)
+                        $reviewType.append("<option value='" + t.value + "' selected ='selected'>" + t.name + "</option>");
+                    else
+                        $reviewType.append("<option value='" + t.value + "'>" + t.name + "</option>");
+                });
                 var _layer = layer.open({
                     title: "修改信息",
                     type: 1,
