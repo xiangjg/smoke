@@ -267,7 +267,7 @@ function addRole() {
         var _type = $(this).attr('name');
         if(_type=='save'){
             var role = {};
-            role.rolename = $("#role_add_view").find("input[name='roleName']").val();
+            role.roleName = $("#role_add_view").find("input[name='roleName']").val();
             $.ajax({
                 url:"/role/save",
                 dataType:"json",

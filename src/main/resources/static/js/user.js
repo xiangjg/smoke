@@ -99,8 +99,8 @@ function edit(userid) {
                 $("#user_edit_view").find("input[name='userId']").val(user.userId);
                 $("#user_edit_view").find("input[name='userName']").val(user.userName);
                 $("#user_edit_view").find("input[name='mobile']").val(user.mobile);
-                $("#user_edit_view").find("input[name='adcd']").val(user.area.adnm);
-                $("#user_edit_view").find("input[name='adcd']").attr("data",user.area.adcd);
+                // $("#user_edit_view").find("input[name='adcd']").val(user.area.adnm);
+                // $("#user_edit_view").find("input[name='adcd']").attr("data",user.area.adcd);
                 var $role = $($("#user_edit_view").find("select[name='role']")[0]);
                 $role.empty();
                 for (var i = 0; i < roleList.length; i++) {
@@ -135,7 +135,7 @@ function edit(userid) {
                         user.mobile = $("#user_edit_view").find("input[name='mobile']").val();
                         user.sex = $("#user_edit_view").find("select[name='sex']").val();
                         user.role.roleId = $("#user_edit_view").find("select[name='role']").selectpicker('val');
-                        user.area.adcd = $("#user_edit_view").find("input[name='adcd']").attr('data');
+                        // user.area.adcd = $("#user_edit_view").find("input[name='adcd']").attr('data');
                         $.ajax({
                             url: "/user/update",
                             dataType: "json",
