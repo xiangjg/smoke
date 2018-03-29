@@ -68,30 +68,32 @@ public class ExpertController extends BaseController {
                     if (i > 0)
                         haveFiled = true;
                     String val = ExcelUtil.getCellValueForCell(cell);
-                    switch (i) {
-                        case 1:
-                            se.setProName(val);
-                            break;
-                        case 2:
-                            se.setReviewType(decodeType(val));
-                            break;
-                        case 3:
-                            se.setReviewTime(sdf.parse(val));
-                            break;
-                        case 4:
-                            se.setExpUnitSkill(val);
-                            break;
-                        case 5:
-                            se.setExpNameType(decodeExpType(val));
-                            break;
-                        case 6:
-                            se.setExpNameSkill(val);
-                            break;
-                        case 7:
-                            se.setReviewCost(new BigDecimal(val));
-                            break;
-                        default:
-                            break;
+                    if(!StringUtils.isEmpty(val)){
+                        switch (i) {
+                            case 1:
+                                se.setProName(val);
+                                break;
+                            case 2:
+                                se.setReviewType(decodeType(val));
+                                break;
+                            case 3:
+                                se.setReviewTime(sdf.parse(val));
+                                break;
+                            case 4:
+                                se.setExpUnitSkill(val);
+                                break;
+                            case 5:
+                                se.setExpNameType(decodeExpType(val));
+                                break;
+                            case 6:
+                                se.setExpNameSkill(val);
+                                break;
+                            case 7:
+                                se.setReviewCost(new BigDecimal(val));
+                                break;
+                            default:
+                                break;
+                        }
                     }
                 }
                 if (haveFiled)

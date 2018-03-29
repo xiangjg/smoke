@@ -10,5 +10,6 @@ public class SmokeApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(SmokeApplication.class, args);
+		System.out.println("服务启动完成");
 	}
 }

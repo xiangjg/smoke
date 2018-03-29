@@ -2,7 +2,7 @@ spring:
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/smokedb?useUnicode=true&characterEncoding=utf8&characterSetResults=utf8&useSSL=true
     username: root
-    password: 92xx1314
+    password: root
     driver-class-name: com.mysql.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
     # 初始化大小，最小，最大
